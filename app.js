@@ -7,7 +7,7 @@ const ejsMate = require("ejs-mate");
 const ExpressError = require("./utils/ExpressError.js");
 const Review = require("./routes/listing.js");
 const session = require("express-session");
-const falsh = require("connect-flash");
+const flash = require("connect-flash");
 
 const listings = require("./routes/listing.js");
 // const review = require("./models/review.js");
@@ -52,7 +52,7 @@ app.get("/", (req, res) => {
 
 
 app.use(session(sessionOptions));
-app.use(falsh());
+app.use(flash());
 
 app.use((req, res, next) => {
   res.locals.success = req.flash("success");
