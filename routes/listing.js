@@ -33,6 +33,10 @@ router.get("/", wrapAsync(async (req, res) => {
   router.get("/:id", wrapAsync(async (req, res) => {
     let { id } = req.params;
     const listing = await Listing.findById(id).populate("reviews"); // Fixed typo from 'listening' to 'listing'
+    if (!listing) {
+      req.flash("error", "Listing you requested for dose not exist!");
+      res.redirect("/listings");
+    }
     res.render("show.ejs", { listing }); 
     })
   );
@@ -50,6 +54,10 @@ router.post("/", validateListing, wrapAsync(async (req, res, next) => {
 router.get("/:id/edit", wrapAsync(async (req, res) => {
   let { id } = req.params;
   const listing = await Listing.findById(id);
+  if (!listing) {
+    req.flash("error", "Listing you requested for dose not exist!");
+    res.redirect("/listings");
+  }
   res.render("edit.ejs", { listing });
   })
 );
@@ -58,6 +66,7 @@ router.get("/:id/edit", wrapAsync(async (req, res) => {
 router.put("/:id", validateListing, wrapAsync(async (req, res) => {
   let { id } = req.params;
   await Listing.findByIdAndUpdate(id, { ...req.body.listing });
+  req.flash("success", "Listing Updated!");
   res.redirect(`/listings/${id}`);
   })
 );
@@ -67,6 +76,7 @@ router.delete("/:id", wrapAsync(async (req, res) => {
   let { id } = req.params;
   let deletedListing = await Listing.findByIdAndDelete(id);
   console.log(deletedListing);
+  req.flash("success", "Listing Deleted!");
   res.redirect("/listings");
   })
 );
