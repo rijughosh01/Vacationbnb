@@ -55,7 +55,7 @@ app.use(session(sessionOptions));
 app.use(falsh());
 
 app.use((req, res, next) => {
-  res.locals.success = req.falsh("success");
+  res.locals.success = req.flash("success");
   next();
 });
 
