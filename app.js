@@ -1,4 +1,4 @@
-if(process.env.NODE_ENV != "production") {
+if (process.env.NODE_ENV != "production") {
   require("dotenv").config();
 }
 
@@ -11,7 +11,7 @@ const ejsMate = require("ejs-mate");
 const ExpressError = require("./utils/ExpressError.js");
 const Review = require("./routes/listing.js");
 const session = require("express-session");
-const MongoStore = require('connect-mongo');
+const MongoStore = require("connect-mongo");
 const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
@@ -41,7 +41,7 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
-app.engine('ejs', ejsMate);
+app.engine("ejs", ejsMate);
 app.use(express.static(path.join(__dirname, "/public")));
 
 const store = MongoStore.create({
@@ -55,7 +55,6 @@ const store = MongoStore.create({
 store.on("error", () => {
   console.log("ERROR in MONGO SESSION STORE", err);
 });
-
 
 const sessionOptions = {
   store,
@@ -90,11 +89,10 @@ app.use((req, res, next) => {
   next();
 });
 
-
 // app.get("/demouser", async (req, res) => {
 //   let fakeUser = new User({
 //     email: "student@gmail.com",
-//     username: "delta-student"
+//     username: "student"
 //   });
 
 //   let rigisterdUser = await User.register(fakeUser, "helloworld");
