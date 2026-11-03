@@ -27,8 +27,35 @@
     </div>
   </div>
 
-  <!-- Airbnb 5-Photo Mosaic Showcase Grid -->
-  <div class="mosaic-gallery-wrapper">
+  <!-- Mobile Swipeable Image Showcase (Visible only on < 768px mobile) -->
+  <div id="mobileShowcaseCarousel" class="carousel slide d-md-none mobile-showcase-wrapper rounded-4 overflow-hidden mb-4 shadow-sm" data-bs-ride="false" data-bs-touch="true">
+    <div class="carousel-indicators">
+      <% showcaseImages.forEach((img, i) => { %>
+        <button type="button" data-bs-target="#mobileShowcaseCarousel" data-bs-slide-to="<%= i %>" class="<%= i === 0 ? 'active' : '' %>" aria-label="Photo <%= i + 1 %>"></button>
+      <% }); %>
+    </div>
+    <div class="carousel-inner">
+      <% showcaseImages.forEach((img, i) => { %>
+        <div class="carousel-item <%= i === 0 ? 'active' : '' %>" data-bs-toggle="modal" data-bs-target="#photosModal" onclick="setActiveSlide(<%= i %>)">
+          <img src="<%= img.url %>" class="d-block w-100 object-fit-cover" style="height: 300px;" alt="<%= listing.title %> photo <%= i + 1 %>" />
+        </div>
+      <% }); %>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#mobileShowcaseCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon p-2 bg-dark bg-opacity-25 rounded-circle" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#mobileShowcaseCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon p-2 bg-dark bg-opacity-25 rounded-circle" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+    <div class="mobile-carousel-counter">
+      <i class="fa-solid fa-camera me-1"></i> <span id="mobilePhotoCurrent">1</span> / <%= showcaseImages.length %>
+    </div>
+  </div>
+
+  <!-- Airbnb 5-Photo Mosaic Showcase Grid (Visible on >= 768px desktop) -->
+  <div class="mosaic-gallery-wrapper d-none d-md-block">
     <div class="mosaic-grid">
       <!-- Main Photo (Left Half) -->
       <div class="mosaic-item mosaic-main" data-bs-toggle="modal" data-bs-target="#photosModal" onclick="setActiveSlide(0)">
@@ -237,7 +264,7 @@
 
     <!-- Right Column: Sticky Reservation Box -->
     <div class="col-lg-5">
-      <div class="sticky-booking-card">
+      <div class="sticky-booking-card" id="bookingCard">
         <div class="booking-price-header">
           <div>
             <span class="booking-price-big">&#8377;<%= Number(listing.price).toLocaleString("en-IN") %></span>
@@ -315,6 +342,26 @@
   </div>
 </div>
 
+<!-- Mobile Fixed Bottom Floating Booking Bar (Airbnb Signature Mobile UX) -->
+<div class="mobile-floating-booking-bar d-lg-none">
+  <div class="container-fluid px-3 d-flex align-items-center justify-content-between">
+    <div>
+      <div class="d-flex align-items-baseline gap-1">
+        <span class="fw-bold fs-5 text-dark">&#8377;<%= Number(listing.price).toLocaleString("en-IN") %></span>
+        <span class="text-muted small">/ night</span>
+      </div>
+      <div class="small text-muted">
+        <i class="fa-solid fa-star text-warning"></i>
+        <strong class="text-dark"><%= listing.reviews.length ? (listing.reviews.reduce((acc, r) => acc + r.rating, 0) / listing.reviews.length).toFixed(1) : "4.9" %></strong>
+        <span>(<%= listing.reviews.length %>)</span>
+      </div>
+    </div>
+    <a href="#bookingCard" class="btn btn-luxury-primary px-4 py-2 rounded-pill fw-bold text-white shadow-sm text-decoration-none">
+      Reserve
+    </a>
+  </div>
+</div>
+
 <!-- Fullscreen Photos Gallery Modal -->
 <div class="modal fade" id="photosModal" tabindex="-1" aria-labelledby="photosModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-fullscreen">
@@ -328,8 +375,8 @@
           <div class="carousel-inner text-center">
             <% for(let i = 0; i < showcaseImages.length; i++) { %>
               <div class="carousel-item <%= i === 0 ? 'active' : '' %>" id="carouselSlide<%= i %>">
-                <img src="<%= showcaseImages[i].url %>" class="d-inline-block rounded-3 shadow-lg" style="max-height: 80vh; max-width: 90vw; object-fit: contain;" alt="Photo <%= i + 1 %>" />
-                <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded-pill mx-auto py-1 px-3" style="width: fit-content; bottom: 20px;">
+                <img src="<%= showcaseImages[i].url %>" class="d-inline-block rounded-3 shadow-lg" style="max-height: 80vh; max-width: 94vw; object-fit: contain;" alt="Photo <%= i + 1 %>" />
+                <div class="carousel-caption bg-dark bg-opacity-75 rounded-pill mx-auto py-1 px-3" style="width: fit-content; bottom: 20px;">
                   Photo <%= i + 1 %> of <%= showcaseImages.length %>
                 </div>
               </div>
@@ -357,6 +404,17 @@
       const carousel = bootstrap.Carousel.getOrCreateInstance(carouselEl);
       carousel.to(index);
     }
+  }
+
+  // Mobile carousel slide counter update
+  const mobileCarousel = document.getElementById('mobileShowcaseCarousel');
+  if (mobileCarousel) {
+    mobileCarousel.addEventListener('slid.bs.carousel', function (e) {
+      const counterEl = document.getElementById('mobilePhotoCurrent');
+      if (counterEl) {
+        counterEl.innerText = e.to + 1;
+      }
+    });
   }
 
   document.addEventListener("DOMContentLoaded", function () {

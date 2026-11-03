@@ -33,6 +33,11 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
 body {
   font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
   color: var(--text-main);
@@ -41,7 +46,16 @@ body {
   flex-direction: column;
   min-height: 100vh;
   margin: 0;
+  width: 100%;
+  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+}
+
+/* Prevent auto-zoom on mobile inputs in Safari/Chrome */
+@media (max-width: 768px) {
+  input, select, textarea {
+    font-size: 16px !important;
+  }
 }
 
 .main-content {
@@ -978,12 +992,312 @@ body {
   transform: scale(1.02);
 }
 
-@media (max-width: 768px) {
-  .mosaic-grid {
-    grid-template-columns: 1fr;
-    grid-template-rows: 300px;
+/* ==========================================================
+   MOBILE SHOWCASE CAROUSEL & FLOATING BOOKING BAR
+   ========================================================== */
+.mobile-showcase-wrapper {
+  position: relative;
+  background: #000;
+}
+
+.mobile-showcase-wrapper .carousel-inner img {
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.mobile-carousel-counter {
+  position: absolute;
+  bottom: 14px;
+  right: 14px;
+  background: rgba(0, 0, 0, 0.75);
+  color: #ffffff;
+  padding: 0.3rem 0.8rem;
+  border-radius: var(--radius-full);
+  font-size: 0.8rem;
+  font-weight: 600;
+  z-index: 10;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  letter-spacing: 0.2px;
+}
+
+/* Mobile Fixed Floating Booking Bar */
+.mobile-floating-booking-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-top: 1px solid var(--border-light);
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
+  padding: 0.65rem 0.5rem;
+  z-index: 1025;
+}
+
+/* ==========================================================
+   COMPREHENSIVE MOBILE RESPONSIVE SUITE
+   ========================================================== */
+
+/* 1. Large Tablets & Small Laptops (< 992px) */
+@media (max-width: 991.98px) {
+  .sticky-booking-card {
+    position: static !important;
+    margin-top: 2rem;
   }
-  .mosaic-item:not(.mosaic-main) {
+
+  .main-content {
+    padding-bottom: 5.5rem; /* Room for floating booking bar */
+  }
+
+  .dashboard-stat-card {
+    margin-bottom: 1rem;
+  }
+}
+
+/* 2. Tablets & Mobile Phones (< 768px) */
+@media (max-width: 767.98px) {
+  /* Navbar */
+  .luxury-navbar {
+    height: auto !important;
+    padding: 0.6rem 0.75rem !important;
+  }
+
+  .brand-logo {
+    font-size: 1.25rem !important;
+  }
+
+  .brand-logo i {
+    font-size: 1.7rem !important;
+  }
+
+  .search-capsule {
+    order: 3;
+    margin-top: 0.5rem;
+    max-width: 100% !important;
+    padding: 0.35rem 0.5rem 0.35rem 1rem !important;
+  }
+
+  .user-menu-pill {
+    padding: 0.25rem 0.5rem 0.25rem 0.65rem !important;
+    gap: 0.5rem !important;
+  }
+
+  .user-avatar {
+    width: 1.85rem !important;
+    height: 1.85rem !important;
+    font-size: 0.8rem !important;
+  }
+
+  .luxury-dropdown-menu {
+    right: 0 !important;
+    left: auto !important;
+    max-width: calc(100vw - 1.5rem) !important;
+    font-size: 0.85rem !important;
+  }
+
+  /* Category Bar */
+  .categories-container {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 0.75rem !important;
+    padding: 0.75rem 0 0.5rem !important;
+    margin-bottom: 1.25rem !important;
+  }
+
+  .category-scroll {
+    gap: 1.5rem !important;
+    padding-bottom: 0.35rem !important;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+  }
+
+  .category-pill {
+    scroll-snap-align: start;
+  }
+
+  .category-pill i {
+    font-size: 1.25rem !important;
+  }
+
+  .category-pill span {
+    font-size: 0.7rem !important;
+  }
+
+  .category-actions-bar {
+    width: 100%;
+    margin-top: 0.25rem;
+  }
+
+  .tax-toggle-box {
+    padding: 0.5rem 0.75rem !important;
+  }
+
+  /* Listing Cards */
+  .luxury-card {
+    margin-bottom: 1.25rem !important;
+  }
+
+  .card-img-wrapper {
+    padding-top: 88% !important;
+    border-radius: var(--radius-md) !important;
+  }
+
+  .card-heart-btn {
+    width: 38px !important;
+    height: 38px !important;
+    font-size: 1.15rem !important;
+    top: 10px !important;
+    right: 10px !important;
+  }
+
+  .card-category-badge {
+    top: 10px !important;
+    left: 10px !important;
+    font-size: 0.7rem !important;
+    padding: 0.3rem 0.65rem !important;
+  }
+
+  /* Show Page */
+  .showcase-header {
+    margin-bottom: 1rem !important;
+  }
+
+  .showcase-title {
+    font-size: 1.45rem !important;
+    line-height: 1.25 !important;
+    margin-bottom: 0.5rem !important;
+  }
+
+  .showcase-subrow {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0.75rem !important;
+  }
+
+  .showcase-subrow .d-flex.align-items-center.gap-3 {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .amenities-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.85rem !important;
+    font-size: 0.9rem !important;
+  }
+
+  #map {
+    height: 260px !important;
+    border-radius: var(--radius-md) !important;
+  }
+
+  .booking-price-big {
+    font-size: 1.5rem !important;
+  }
+
+  /* Host Landing */
+  .host-hero-section {
+    padding-top: 0 !important;
+    padding-bottom: 2rem !important;
+  }
+
+  .host-hero-section h1.display-4 {
+    font-size: 2.2rem !important;
+    line-height: 1.2 !important;
+  }
+
+  .host-hero-section img {
+    height: 280px !important;
+  }
+
+  .host-hero-section .position-absolute.bottom-0 {
+    margin: 0.75rem !important;
+    max-width: calc(100% - 1.5rem) !important;
+    padding: 0.75rem !important;
+  }
+
+  #calcTotalEarnings {
+    font-size: 2.5rem !important;
+  }
+
+  /* Host Dashboard */
+  #dashboardTabs {
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 0.5rem;
+  }
+
+  #dashboardTabs::-webkit-scrollbar {
     display: none;
+  }
+
+  #dashboardTabs .nav-link {
+    white-space: nowrap !important;
+    font-size: 0.85rem !important;
+    padding: 0.45rem 1rem !important;
+  }
+
+  /* Auth / Form Wrappers */
+  .auth-wrapper {
+    margin: 1.5rem auto !important;
+    padding: 1.5rem !important;
+    border-radius: var(--radius-md) !important;
+  }
+
+  /* Footer */
+  .footer-content {
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    gap: 1.25rem !important;
+  }
+
+  .footer-links {
+    justify-content: center !important;
+  }
+
+  .footer-socials {
+    margin-top: 0.25rem;
+  }
+}
+
+/* 3. Small Mobile Phones (< 576px) */
+@media (max-width: 575.98px) {
+  .container-fluid {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+
+  .amenities-grid {
+    grid-template-columns: 1fr !important;
+    gap: 0.65rem !important;
+  }
+
+  .date-input-group,
+  .booking-dates-row {
+    flex-direction: column !important;
+  }
+
+  .booking-date-col:first-child {
+    border-right: none !important;
+    border-bottom: 1px solid var(--border-card) !important;
+  }
+
+  .modal-dialog {
+    margin: 0.5rem !important;
+    max-width: calc(100% - 1rem) !important;
+  }
+
+  .modal-content {
+    border-radius: var(--radius-lg) !important;
+  }
+
+  .btn-reserve-gradient {
+    padding: 0.85rem !important;
+    font-size: 1rem !important;
   }
 }

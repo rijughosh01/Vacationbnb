@@ -1,11 +1,11 @@
 <% layout("/layouts/boilerplate") %>
 
 <div class="container-fluid px-lg-5 px-3 py-4">
-  <div class="row g-5">
+  <div class="row g-4 g-lg-5">
     <!-- Left Column: User Profile Card -->
     <div class="col-lg-4">
       <div class="card border-0 shadow-sm rounded-4 p-4 text-center bg-white">
-        <div class="mx-auto mb-3 bg-dark text-white rounded-circle d-flex align-items-center justify-content-center shadow-sm" style="width: 100px; height: 100px; font-size: 2.5rem; font-weight: 800;">
+        <div class="mx-auto mb-3 bg-dark text-white rounded-circle d-flex align-items-center justify-content-center shadow-sm" style="width: 85px; height: 85px; font-size: 2.2rem; font-weight: 800;">
           <%= user.username.charAt(0).toUpperCase() %>
         </div>
         <h3 class="fw-bold mb-1"><%= user.username %></h3>

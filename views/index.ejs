@@ -50,7 +50,7 @@
   </div>
 
   <!-- Actions (Filters Button + Tax Toggle) -->
-  <div class="d-flex align-items-center gap-3 flex-shrink-0">
+  <div class="category-actions-bar d-flex align-items-center justify-content-between gap-2 flex-wrap flex-sm-nowrap flex-shrink-0">
     <button class="btn btn-outline-dark rounded-4 d-flex align-items-center gap-2 px-3 py-2 fw-semibold" data-bs-toggle="modal" data-bs-target="#advancedFilterModal">
       <i class="fa-solid fa-sliders"></i> Filters
       <% const activeFilterCount = (minPrice ? 1 : 0) + (maxPrice ? 1 : 0) + (selectedAmenities && selectedAmenities.length ? selectedAmenities.length : 0); %>
@@ -62,7 +62,8 @@
     <div class="tax-toggle-box">
       <div class="form-check form-switch m-0 d-flex align-items-center gap-2">
         <input class="form-check-input" type="checkbox" role="switch" id="taxSwitch">
-        <label class="form-check-label" for="taxSwitch">Display total after taxes</label>
+        <label class="form-check-label d-none d-sm-inline" for="taxSwitch">Display total after taxes</label>
+        <label class="form-check-label d-sm-none" for="taxSwitch">Taxes included</label>
       </div>
     </div>
   </div>
