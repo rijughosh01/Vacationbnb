@@ -1,52 +1,81 @@
-<style>
-  .search-btn {
-    background-color: #fe424f;
-    color: #fff;
-    border-radius: 25px;
-    padding: 0 1rem 0 1rem;
-  }
-  .search-btn:hover {
-    background-color: #fe424f;
-    color: #fff;
-  }
-  .search-btn i {
-    display: inline;
-    margin-right: 0.5rem;
-  }
+<nav class="navbar navbar-expand-lg luxury-navbar sticky-top">
+  <div class="container-fluid px-lg-5 px-3">
+    <!-- Brand Logo -->
+    <a class="navbar-brand brand-logo" href="/listings">
+      <i class="fa-regular fa-compass"></i>
+      <span>WanderLust</span>
+    </a>
 
-  .search-inp {
-    border-radius: 25px;
-    padding: 0.5rem 3rem 0.5rem 3rem;
-    font-size: 1rem;
-  }
-</style>
+    <!-- Center Search Capsule -->
+    <div class="d-none d-md-flex mx-auto">
+      <form class="search-capsule" action="/listings" method="GET" role="search">
+        <input 
+          type="search" 
+          name="q" 
+          value="<%= typeof searchQuery !== 'undefined' ? searchQuery : '' %>"
+          placeholder="Anywhere · Any week · Search destinations..." 
+          aria-label="Search destinations"
+        />
+        <button class="search-capsule-btn" type="submit" title="Search">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </form>
+    </div>
 
-<nav class="navbar navbar-expand-md bg-body-white border-bottom sticky-top" style="background-color: #e3f2fd;">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="/listings"><i class="fa-regular fa-compass"></i></a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav">
-          <a class="nav-link" href="/listings">Explore</a>
+    <!-- Right User Controls -->
+    <div class="d-flex align-items-center gap-3 ms-auto">
+      <a class="nav-host-link d-none d-sm-block" href="/host">Airbnb your home</a>
+
+      <!-- Profile Dropdown -->
+      <div class="dropdown">
+        <div class="user-menu-pill" id="userMenuDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="fa-solid fa-bars text-secondary"></i>
+          <div class="user-avatar">
+            <% if (currUser) { %>
+              <%= currUser.username.charAt(0).toUpperCase() %>
+            <% } else { %>
+              <i class="fa-solid fa-user"></i>
+            <% } %>
+          </div>
         </div>
-        <div class="navbar-nav ms-auto">
-          <form class="d-flex" role="search">
-            <input class="form-control me-2 search-inp" type="search" placeholder="Search destinations">
-            <button class="btn search-btn" type="submit"><i class="fa-solid fa-magnifying-glass"></i>Search</button>
-          </form>
-        </div>
-        <div class="navbar-nav ms-auto">
-          <a class="nav-link" href="/listings/new">Aribnb your home</a>
-          <% if(!currUser) { %>
-          <a class="nav-link" href="/signup"><b>Sign up</b></a>
-          <a class="nav-link" href="/login"><b>Log in</b></a>
+
+        <ul class="dropdown-menu dropdown-menu-end luxury-dropdown-menu" aria-labelledby="userMenuDropdown">
+          <% if (!currUser) { %>
+            <li><a class="dropdown-item fw-bold" href="/signup">Sign up</a></li>
+            <li><a class="dropdown-item" href="/login">Log in</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="/host"><i class="fa-solid fa-house-user me-2 text-danger"></i>Airbnb your home</a></li>
+            <li><a class="dropdown-item" href="/terms"><i class="fa-solid fa-circle-question me-2 text-secondary"></i>Help Center</a></li>
+          <% } else { %>
+            <li class="px-3 py-2 text-muted small border-bottom">
+              Signed in as <strong><%= currUser.username %></strong>
+            </li>
+            <li><a class="dropdown-item" href="/dashboard"><i class="fa-solid fa-chart-line me-2 text-primary"></i>Host Dashboard</a></li>
+            <li><a class="dropdown-item" href="/profile"><i class="fa-solid fa-user me-2 text-secondary"></i>My Profile</a></li>
+            <li><a class="dropdown-item" href="/host"><i class="fa-solid fa-house-user me-2 text-danger"></i>Host on WanderLust</a></li>
+            <li><a class="dropdown-item fw-semibold" href="/listings/new"><i class="fa-solid fa-plus me-2 text-danger"></i>Create New Listing</a></li>
+            <li><a class="dropdown-item" href="/listings"><i class="fa-solid fa-compass me-2 text-secondary"></i>Explore Listings</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item text-danger" href="/logout"><i class="fa-solid fa-arrow-right-from-bracket me-2"></i>Log out</a></li>
           <% } %>
-          <% if(currUser) { %>
-          <a class="nav-link" href="/logout"><b>Log out</b></a>
-          <% } %>
-        </div>
+        </ul>
       </div>
     </div>
-  </nav>
+  </div>
+
+  <!-- Mobile Search Bar (under brand on small screens) -->
+  <div class="d-md-none w-100 mt-2 px-3">
+    <form class="search-capsule w-100" action="/listings" method="GET" role="search">
+      <input 
+        type="search" 
+        name="q" 
+        value="<%= typeof searchQuery !== 'undefined' ? searchQuery : '' %>"
+        placeholder="Search destinations..." 
+        aria-label="Search"
+      />
+      <button class="search-capsule-btn" type="submit">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </button>
+    </form>
+  </div>
+</nav>

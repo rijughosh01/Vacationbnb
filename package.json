@@ -4,14 +4,22 @@
   },
   "name": "wanderlust",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "seed": "node init/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
+  "keywords": [
+    "airbnb",
+    "wanderlust",
+    "marketplace",
+    "travel"
+  ],
   "author": "",
   "license": "ISC",
-  "description": "",
+  "description": "WanderLust luxury travel accommodation marketplace",
   "dependencies": {
     "cloudinary": "^1.21.0",
     "connect-flash": "^0.1.1",

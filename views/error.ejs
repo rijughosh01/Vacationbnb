@@ -1,8 +1,14 @@
 <% layout("/layouts/boilerplate") %>
 
-<div class="row mt-3">
-    <div class="alert alert-danger col-6 offset-3" role="alert">
-        <!-- <svg class="bi flex-shrink-0 me-2" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg> -->
-        <p class="alert-heading"> <%= message %></p>
-      </div>
+<div class="row my-5 py-5 text-center">
+  <div class="col-lg-6 offset-lg-3">
+    <div class="mb-4">
+      <i class="fa-solid fa-triangle-exclamation text-danger" style="font-size: 4rem;"></i>
+    </div>
+    <h2 class="fw-bold mb-2">Oops! Something went wrong</h2>
+    <p class="text-muted fs-5 mb-4"><%= message || "The page you are looking for might have been removed or is temporarily unavailable." %></p>
+    <a href="/listings" class="btn btn-luxury-primary rounded-pill px-4 py-2 fw-semibold">
+      <i class="fa-solid fa-arrow-left me-2"></i>Back to Home
+    </a>
+  </div>
 </div>
