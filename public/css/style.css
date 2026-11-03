@@ -1301,3 +1301,110 @@ body {
     font-size: 1rem !important;
   }
 }
+
+
+/* ==========================================================================
+   Wishlist & Favorites System Styling
+   ========================================================================== */
+
+/* Active / Saved Heart Button Styling */
+.card-heart-btn.active,
+.card-heart-btn.text-danger {
+  color: #ff385c !important;
+  background: rgba(255, 255, 255, 0.95) !important;
+  box-shadow: 0 4px 12px rgba(255, 56, 92, 0.3) !important;
+  transform: scale(1.08);
+}
+
+@keyframes heartBeat {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.35); }
+  100% { transform: scale(1.08); }
+}
+
+.card-heart-btn.active {
+  animation: heartBeat 0.3s ease-in-out;
+}
+
+/* Nav Wishlist Link */
+.nav-wishlist-link {
+  transition: all var(--transition-fast);
+  padding: 0.4rem 0.75rem;
+  border-radius: 9999px;
+  border: 1px solid transparent;
+}
+
+.nav-wishlist-link:hover {
+  background-color: var(--surface-secondary);
+  border-color: var(--border-subtle);
+  color: #ff385c !important;
+}
+
+/* Luxury Floating Toast Notifications */
+.luxury-toast-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 100000;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+}
+
+@media (max-width: 576px) {
+  .luxury-toast-container {
+    bottom: 80px;
+    right: 16px;
+    left: 16px;
+    align-items: center;
+  }
+}
+
+.luxury-toast-item {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0.75rem 1.35rem;
+  border-radius: 9999px;
+  color: #ffffff;
+  font-size: 0.92rem;
+  font-weight: 500;
+  animation: slideUpToast 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.luxury-toast-item.toast-success {
+  background: linear-gradient(135deg, #10b981, #059669);
+}
+
+.luxury-toast-item.toast-danger {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+}
+
+.luxury-toast-item.toast-warning {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+}
+
+.luxury-toast-item.toast-info {
+  background: linear-gradient(135deg, #1f2937, #111827);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.luxury-toast-item.toast-fade-out {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: all 0.35s ease;
+}
+
+@keyframes slideUpToast {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}

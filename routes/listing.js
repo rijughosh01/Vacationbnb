@@ -21,6 +21,9 @@ router
 // New Route
 router.get("/new", isLoggedIn, listingController.renderNewForm);
 
+// Wishlist Toggle API (must be placed before /:id routes or as a sub-path)
+router.post("/:id/wishlist", wrapAsync(listingController.toggleWishlist));
+
 router
   .route("/:id")
   .get(wrapAsync(listingController.showListing))

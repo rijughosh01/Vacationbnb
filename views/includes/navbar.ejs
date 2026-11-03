@@ -25,6 +25,10 @@
     <!-- Right User Controls -->
     <div class="d-flex align-items-center gap-3 ms-auto">
       <a class="nav-host-link d-none d-sm-block" href="/host">Airbnb your home</a>
+      <a class="nav-wishlist-link d-none d-sm-flex align-items-center gap-1 text-decoration-none text-dark px-2 py-1 rounded-pill" href="/wishlist" title="My Wishlists">
+        <i class="fa-solid fa-heart text-danger"></i>
+        <span class="small fw-semibold">Wishlists</span>
+      </a>
 
       <!-- Profile Dropdown -->
       <div class="dropdown">
@@ -43,6 +47,7 @@
           <% if (!currUser) { %>
             <li><a class="dropdown-item fw-bold" href="/signup">Sign up</a></li>
             <li><a class="dropdown-item" href="/login">Log in</a></li>
+            <li><a class="dropdown-item" href="/wishlist"><i class="fa-solid fa-heart me-2 text-danger"></i>Wishlists</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="/host"><i class="fa-solid fa-house-user me-2 text-danger"></i>Airbnb your home</a></li>
             <li><a class="dropdown-item" href="/terms"><i class="fa-solid fa-circle-question me-2 text-secondary"></i>Help Center</a></li>
@@ -50,6 +55,7 @@
             <li class="px-3 py-2 text-muted small border-bottom">
               Signed in as <strong><%= currUser.username %></strong>
             </li>
+            <li><a class="dropdown-item" href="/wishlist"><i class="fa-solid fa-heart me-2 text-danger"></i>My Wishlists</a></li>
             <li><a class="dropdown-item" href="/dashboard"><i class="fa-solid fa-chart-line me-2 text-primary"></i>Host Dashboard</a></li>
             <li><a class="dropdown-item" href="/profile"><i class="fa-solid fa-user me-2 text-secondary"></i>My Profile</a></li>
             <li><a class="dropdown-item" href="/host"><i class="fa-solid fa-house-user me-2 text-danger"></i>Host on WanderLust</a></li>

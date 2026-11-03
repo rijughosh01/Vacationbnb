@@ -1,4 +1,5 @@
 const Listing = require("../models/listing");
+const User = require("../models/user");
 
 module.exports.index = async (req, res) => {
   const { q, category, minPrice, maxPrice, amenities } = req.query;
@@ -178,4 +179,51 @@ module.exports.destroyListing = async (req, res) => {
   await Listing.findByIdAndDelete(id);
   req.flash("success", "Listing Deleted Successfully!");
   res.redirect("/listings");
+};
+
+// Wishlist Toggle API
+module.exports.toggleWishlist = async (req, res) => {
+  if (!req.isAuthenticated || !req.isAuthenticated()) {
+    return res.status(401).json({
+      success: false,
+      message: "Please log in to save stays to your wishlist.",
+      redirect: "/login",
+    });
+  }
+
+  const { id } = req.params;
+  const user = await User.findById(req.user._id);
+
+  if (!user) {
+    return res.status(404).json({ success: false, message: "User not found." });
+  }
+
+  if (!user.wishlist) {
+    user.wishlist = [];
+  }
+
+  const stringId = id.toString();
+  const index = user.wishlist.findIndex((item) => item.toString() === stringId);
+  let inWishlist = false;
+
+  if (index > -1) {
+    user.wishlist.splice(index, 1);
+    inWishlist = false;
+  } else {
+    user.wishlist.push(id);
+    inWishlist = true;
+  }
+
+  await user.save();
+
+  if (req.user) {
+    req.user.wishlist = user.wishlist;
+  }
+
+  res.json({
+    success: true,
+    inWishlist,
+    count: user.wishlist.length,
+    message: inWishlist ? "Saved to your wishlist!" : "Removed from your wishlist.",
+  });
 };

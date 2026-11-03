@@ -20,8 +20,15 @@
         <button class="btn btn-sm btn-outline-dark rounded-pill px-3" onclick="navigator.clipboard.writeText(window.location.href); alert('Listing link copied to clipboard!');">
           <i class="fa-solid fa-arrow-up-from-bracket me-1"></i> Share
         </button>
-        <button class="btn btn-sm btn-outline-dark rounded-pill px-3" onclick="this.classList.toggle('btn-danger'); this.classList.toggle('btn-outline-dark');">
-          <i class="fa-regular fa-heart me-1"></i> Save
+        <% 
+          const isShowSaved = currUser && currUser.wishlist && currUser.wishlist.some(item => (item && item._id ? item._id.toString() : item ? item.toString() : '') === listing._id.toString());
+        %>
+        <button 
+          class="btn btn-sm <%= isShowSaved ? 'btn-danger' : 'btn-outline-dark' %> rounded-pill px-3 show-save-btn" 
+          id="saveListingBtn"
+          onclick="toggleWishlist(event, '<%= listing._id %>')"
+        >
+          <i class="<%= isShowSaved ? 'fa-solid' : 'fa-regular' %> fa-heart me-1"></i> <span class="btn-label"><%= isShowSaved ? 'Saved' : 'Save' %></span>
         </button>
       </div>
     </div>

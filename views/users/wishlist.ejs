@@ -1,0 +1,96 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="container-fluid px-lg-5 px-3 py-4">
+  <!-- Wishlist Header -->
+  <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 pb-4 mb-4 border-bottom">
+    <div>
+      <div class="d-flex align-items-center gap-2 mb-1">
+        <h1 class="h2 fw-bold mb-0">My Wishlists</h1>
+        <span class="badge rounded-pill bg-danger-subtle text-danger px-3 py-2 fw-semibold fs-6" id="wishlistCountBadge">
+          <%= wishlist.length %> <%= wishlist.length === 1 ? 'stay' : 'stays' %> saved
+        </span>
+      </div>
+      <p class="text-muted mb-0">Your curated collection of dream getaways and favorite stays.</p>
+    </div>
+    <div class="d-flex align-items-center gap-2">
+      <a href="/listings" class="btn btn-outline-dark rounded-pill px-4">
+        <i class="fa-solid fa-compass me-2"></i>Explore More
+      </a>
+    </div>
+  </div>
+
+  <!-- Empty State (Shown when 0 saved stays) -->
+  <div id="wishlistEmptyState" class="text-center py-5 my-5 <%= wishlist.length === 0 ? '' : 'd-none' %>">
+    <div class="empty-icon-wrap mx-auto mb-4 d-flex align-items-center justify-content-center rounded-circle" style="width: 90px; height: 90px; background: rgba(255, 56, 92, 0.08); border: 2px dashed rgba(255, 56, 92, 0.3);">
+      <i class="fa-solid fa-heart text-danger fs-1"></i>
+    </div>
+    <h3 class="fw-bold mb-2">No saved stays yet</h3>
+    <p class="text-muted mb-4 mx-auto" style="max-width: 440px;">
+      As you browse, click the heart icon on any listing card or details page to build your personal wishlist of dream escapes.
+    </p>
+    <a href="/listings" class="btn btn-luxury-primary rounded-pill px-4 py-2 fs-6">
+      <i class="fa-solid fa-magnifying-glass me-2"></i>Start Exploring Stays
+    </a>
+  </div>
+
+  <!-- Wishlist Card Grid -->
+  <% if (wishlist && wishlist.length > 0) { %>
+    <div class="row row-cols-xl-4 row-cols-lg-3 row-cols-md-2 row-cols-1 g-4 mb-5" id="wishlistGrid">
+      <% for (let listing of wishlist) { %>
+        <% if (listing) { %>
+          <div class="col wishlist-item-card" id="wishlist-card-<%= listing._id %>">
+            <a href="/listings/<%= listing._id %>" class="listing-card-link text-decoration-none text-dark">
+              <div class="card luxury-card h-100 shadow-sm border-0 position-relative">
+                <!-- Image Showcase -->
+                <div class="card-img-wrapper position-relative overflow-hidden rounded-4">
+                  <img 
+                    src="<%= listing.image && listing.image.url ? listing.image.url : (listing.images && listing.images.length ? listing.images[0].url : 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=800&q=60') %>" 
+                    alt="<%= listing.title %>"
+                    class="w-100 object-fit-cover"
+                    style="height: 240px;"
+                    loading="lazy"
+                  />
+                  <span class="card-category-badge"><%= listing.category || 'Trending' %></span>
+                  
+                  <!-- Persistent Heart Button (Active by default in Wishlists) -->
+                  <button 
+                    class="card-heart-btn active" 
+                    type="button" 
+                    title="Remove from Wishlist"
+                    onclick="toggleWishlist(event, '<%= listing._id %>')"
+                  >
+                    <i class="fa-solid fa-heart"></i>
+                  </button>
+                </div>
+
+                <!-- Card Details -->
+                <div class="card-info pt-3">
+                  <div class="card-title-row d-flex justify-content-between align-items-center mb-1">
+                    <span class="fw-bold text-truncate me-2 fs-6"><%= listing.title %></span>
+                    <span class="fw-normal small text-nowrap">
+                      <i class="fa-solid fa-star text-warning me-1"></i>
+                      <%= listing.reviews && listing.reviews.length ? (listing.reviews.reduce((acc, r) => acc + r.rating, 0) / listing.reviews.length).toFixed(1) : "4.92" %>
+                    </span>
+                  </div>
+                  <div class="card-location-sub text-muted small text-truncate mb-2">
+                    <i class="fa-solid fa-location-dot me-1 text-secondary"></i>
+                    <%= listing.location %>, <%= listing.country %>
+                  </div>
+                  <div class="card-price-row d-flex align-items-center justify-content-between pt-1 border-top">
+                    <div>
+                      <span class="fw-bold fs-6 text-dark">&#8377;<%= Number(listing.price).toLocaleString("en-IN") %></span>
+                      <span class="text-muted small"> / night</span>
+                    </div>
+                    <span class="badge rounded-pill bg-light text-secondary border px-2 py-1 small">
+                      View Stay &rarr;
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+        <% } %>
+      <% } %>
+    </div>
+  <% } %>
+</div>

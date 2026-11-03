@@ -129,3 +129,14 @@ module.exports.updateBookingStatus = async (req, res) => {
   req.flash("success", `Booking status updated to ${status}!`);
   res.redirect("/dashboard");
 };
+
+// 5. My Wishlists
+module.exports.renderWishlist = async (req, res) => {
+  const user = await User.findById(req.user._id).populate({
+    path: "wishlist",
+    populate: { path: "reviews" },
+  });
+
+  const wishlist = user && user.wishlist ? user.wishlist.filter(Boolean) : [];
+  res.render("users/wishlist.ejs", { wishlist });
+};

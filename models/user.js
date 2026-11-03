@@ -20,6 +20,12 @@ const userSchema = new Schema(
       type: String,
       default: "",
     },
+    wishlist: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Listing",
+      },
+    ],
   },
   { timestamps: true }
 );

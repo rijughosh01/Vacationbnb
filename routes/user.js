@@ -36,6 +36,9 @@ router
 // Host & Guest Dashboard
 router.get("/dashboard", isLoggedIn, wrapAsync(userController.renderDashboard));
 
+// My Wishlists
+router.get("/wishlist", isLoggedIn, wrapAsync(userController.renderWishlist));
+
 // Bookings
 router.post("/bookings", isLoggedIn, wrapAsync(userController.createBooking));
 router.post("/bookings/:id/status", isLoggedIn, wrapAsync(userController.updateBookingStatus));
