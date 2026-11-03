@@ -1,77 +1,435 @@
-<%- layout("/layouts/boilerplate") %>
+<% layout("/layouts/boilerplate") %>
 
-  <div class="row mt-3"></div>
-  <div class="col-8 offset-3">
-    <h3><%= listing.title %></h3>
-  </div>
-  
-  <div class="card col-6 offset-3 show-card listing-card">
-    <img src="<%= listing.image.url || '/default-image.jpg' %>" class="card-img-top show-img" alt="listing-image" />
-    <div class="card-body">
-      <p class="card-text">Owned by <i><%= listing.owner ? listing.owner.username : "Robert" %></i></p>
-  
-      <p class="card-text"><%= listing.description %></p>
-      <p class="card-text"> &#8377; <%= listing.price.toLocaleString("en-IN") %> </p>
-      <p class="card-text"><%= listing.location %></p>
-      <p class="card-text"><%= listing.country %></p>
-    </div>
-  </div>
-  
-  <% if (currUser && listing.owner && listing.owner._id && listing.owner._id.equals(currUser._id)) { %>
-    <div class="btns d-flex btn-div gap-4">
-        <a href="/listings/<%= listing._id %>/edit" class="btn btn-dark">Edit</a>
-        <form method="POST" action="/listings/<%= listing._id %>?_method=DELETE" class="d-inline">
-          <button class="btn btn-danger">Delete</button>
-        </form>
-    </div>
-  <% } else { %>
-    <!-- <p>Owner information is missing.</p> -->
-  <% } %>
-  
-  <div class="col-8 offset-3 mb-3">
-    <hr />
-    <% if(currUser) {%>
-    <h4>Leave a Review</h4>
-    <form action="/listings/<%= listing._id %>/reviews" method="POST" novalidate class="needs-validation">
-      <div class="mb-3 mt-3">
-      <label for="rating" class="form-label">Rating</label>
-      <fieldset class="starability-slot">
-        <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="1" checked aria-label="No rating." />
-        <input type="radio" id="first-rate1" name="review[rating]" value="1" />
-        <label for="first-rate1" title="Terrible">1 star</label>
-        <input type="radio" id="first-rate2" name="review[rating]" value="2" />
-        <label for="first-rate2" title="Not good">2 stars</label>
-        <input type="radio" id="first-rate3" name="review[rating]" value="3" />
-        <label for="first-rate3" title="Average">3 stars</label>
-        <input type="radio" id="first-rate4" name="review[rating]" value="4" />
-        <label for="first-rate4" title="Very good">4 stars</label>
-        <input type="radio" id="first-rate5" name="review[rating]" value="5" />
-        <label for="first-rate5" title="Amazing">5 stars</label>
-      </fieldset>
-    </div>
-      <div class="mb-3 mt-3">
-        <label for="comment" class="form-label">Comments</label>
-        <textarea name="review[comment]" id="comment" cols="30" rows="5" class="form-control" required></textarea>
-        <div class="invalid-feedback">Please add some comments for review.</div>
+<div class="container-fluid px-lg-5 px-3 py-3">
+  <!-- Title & Location Header -->
+  <div class="showcase-header">
+    <h1 class="showcase-title"><%= listing.title %></h1>
+    <div class="showcase-subrow">
+      <div class="d-flex align-items-center gap-2 flex-wrap">
+        <span><i class="fa-solid fa-star text-warning"></i> <strong><%= listing.reviews.length ? (listing.reviews.reduce((acc, r) => acc + r.rating, 0) / listing.reviews.length).toFixed(1) : "New" %></strong></span>
+        <span>·</span>
+        <a href="#reviews" class="text-decoration-none text-dark fw-semibold"><%= listing.reviews.length %> reviews</a>
+        <span>·</span>
+        <span><i class="fa-solid fa-medal text-danger me-1"></i>Superhost</span>
+        <span>·</span>
+        <span class="text-decoration-underline fw-semibold"><%= listing.location %>, <%= listing.country %></span>
       </div>
-      <button class="btn btn-outline-dark">Submit</button>
-    </form>
-    <hr />
-    <% } %>
-  
-    <p><b>All Reviews</b></p>
-    <div class="row">
-    <% for (let review of listing.reviews) { %>
-      <div class="card col-5 ms-3 mb-3">
-        <div class="card-body">
-          <h5 class="card-title">@<%= review.author.username %></h5>
-          <p class="starability-result card-text" data-rating="<%= review.rating %>"></p>
-          <p class="card-text mb-3"><%= review.comment %></p>
+
+      <!-- Action buttons -->
+      <div class="d-flex align-items-center gap-3">
+        <button class="btn btn-sm btn-outline-dark rounded-pill px-3" onclick="navigator.clipboard.writeText(window.location.href); alert('Listing link copied to clipboard!');">
+          <i class="fa-solid fa-arrow-up-from-bracket me-1"></i> Share
+        </button>
+        <button class="btn btn-sm btn-outline-dark rounded-pill px-3" onclick="this.classList.toggle('btn-danger'); this.classList.toggle('btn-outline-dark');">
+          <i class="fa-regular fa-heart me-1"></i> Save
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Airbnb 5-Photo Mosaic Showcase Grid -->
+  <div class="mosaic-gallery-wrapper">
+    <div class="mosaic-grid">
+      <!-- Main Photo (Left Half) -->
+      <div class="mosaic-item mosaic-main" data-bs-toggle="modal" data-bs-target="#photosModal" onclick="setActiveSlide(0)">
+        <img src="<%= showcaseImages[0].url %>" alt="<%= listing.title %> main photo" />
+      </div>
+
+      <!-- Top Right Photo 1 -->
+      <div class="mosaic-item" data-bs-toggle="modal" data-bs-target="#photosModal" onclick="setActiveSlide(1)">
+        <img src="<%= showcaseImages[1].url %>" alt="<%= listing.title %> photo 2" />
+      </div>
+
+      <!-- Top Right Photo 2 -->
+      <div class="mosaic-item" data-bs-toggle="modal" data-bs-target="#photosModal" onclick="setActiveSlide(2)">
+        <img src="<%= showcaseImages[2].url %>" alt="<%= listing.title %> photo 3" />
+      </div>
+
+      <!-- Bottom Right Photo 1 -->
+      <div class="mosaic-item" data-bs-toggle="modal" data-bs-target="#photosModal" onclick="setActiveSlide(3)">
+        <img src="<%= showcaseImages[3].url %>" alt="<%= listing.title %> photo 4" />
+      </div>
+
+      <!-- Bottom Right Photo 2 -->
+      <div class="mosaic-item" data-bs-toggle="modal" data-bs-target="#photosModal" onclick="setActiveSlide(4)">
+        <img src="<%= showcaseImages[4].url %>" alt="<%= listing.title %> photo 5" />
+      </div>
+    </div>
+
+    <!-- Show All Photos Floating Button -->
+    <button class="btn-show-all-photos" data-bs-toggle="modal" data-bs-target="#photosModal" onclick="setActiveSlide(0)">
+      <i class="fa-solid fa-grip"></i> Show all <%= showcaseImages.length %> photos
+    </button>
+  </div>
+
+  <!-- Main Details & Sticky Booking Row -->
+  <div class="row g-5">
+    <!-- Left Column: Details, Highlights, Amenities, Map, Reviews -->
+    <div class="col-lg-7">
+      <!-- Host Profile Banner -->
+      <div class="host-banner">
+        <div>
+          <h4 class="fw-bold mb-1">
+            Entire <%= listing.category || 'home' %> hosted by <%= listing.owner ? listing.owner.username : "Host" %>
+          </h4>
+          <p class="text-muted mb-0">6 guests · 3 bedrooms · 3 beds · 2 baths</p>
         </div>
-        <form class="mb-3" method="POST" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE">
-          <button class="btn btn-sm btn-dark">Delete</button>
-        </form>
+        <div class="host-avatar-lg">
+          <%= listing.owner && listing.owner.username ? listing.owner.username.charAt(0).toUpperCase() : "H" %>
+        </div>
       </div>
-    <% } %>
+
+      <!-- Host / Property Highlights -->
+      <div class="py-2 border-bottom mb-4">
+        <div class="highlight-row">
+          <i class="fa-solid fa-door-open"></i>
+          <div>
+            <h6>Self check-in</h6>
+            <p>Check yourself in with the smart lock keypad.</p>
+          </div>
+        </div>
+        <div class="highlight-row">
+          <i class="fa-solid fa-location-dot"></i>
+          <div>
+            <h6>Exceptional location</h6>
+            <p>95% of recent guests gave the location a 5-star rating.</p>
+          </div>
+        </div>
+        <div class="highlight-row">
+          <i class="fa-regular fa-calendar-check"></i>
+          <div>
+            <h6>Free cancellation</h6>
+            <p>Cancel up to 48 hours before check-in for a full refund.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- About this place -->
+      <div class="py-2 border-bottom mb-4">
+        <h5 class="fw-bold mb-3">About this space</h5>
+        <p class="text-secondary" style="line-height: 1.7; font-size: 1rem;">
+          <%= listing.description %>
+        </p>
+      </div>
+
+      <!-- Amenities Section -->
+      <div class="py-2 border-bottom mb-4">
+        <h5 class="fw-bold mb-3">What this place offers</h5>
+        <div class="amenities-grid">
+          <% const sampleAmenities = listing.amenities && listing.amenities.length ? listing.amenities : ["Fast Wifi (150 Mbps)", "Free parking on premises", "Air conditioning", "Dedicated workspace", "Kitchen & Refrigerator", "HDTV with Netflix"]; %>
+          <% for(let amenity of sampleAmenities) { %>
+            <div class="amenity-item">
+              <i class="fa-solid fa-check text-success"></i>
+              <span><%= amenity %></span>
+            </div>
+          <% } %>
+        </div>
+      </div>
+
+      <!-- Owner Action Buttons -->
+      <% if (currUser && listing.owner && listing.owner._id && listing.owner._id.equals(currUser._id)) { %>
+        <div class="d-flex align-items-center gap-3 py-3 border-bottom mb-4">
+          <a href="/listings/<%= listing._id %>/edit" class="btn btn-dark rounded-pill px-4">
+            <i class="fa-solid fa-pen-to-square me-2"></i>Edit Listing
+          </a>
+          <form method="POST" action="/listings/<%= listing._id %>?_method=DELETE" class="d-inline">
+            <button class="btn btn-outline-danger rounded-pill px-4" onclick="return confirm('Are you sure you want to delete this listing?');">
+              <i class="fa-solid fa-trash me-2"></i>Delete Listing
+            </button>
+          </form>
+        </div>
+      <% } %>
+
+      <!-- Interactive Location Map -->
+      <div class="map-section">
+        <h5 class="fw-bold mb-2">Where you'll be</h5>
+        <p class="text-muted mb-3"><i class="fa-solid fa-location-dot me-1 text-danger"></i><%= listing.location %>, <%= listing.country %></p>
+        <div id="map"></div>
+      </div>
+
+      <!-- Reviews Section -->
+      <div class="reviews-section" id="reviews">
+        <div class="d-flex align-items-center gap-2 mb-4">
+          <i class="fa-solid fa-star text-warning fs-5"></i>
+          <h4 class="fw-bold m-0">
+            <%= listing.reviews.length ? (listing.reviews.reduce((acc, r) => acc + r.rating, 0) / listing.reviews.length).toFixed(1) : "No reviews yet" %>
+            · <%= listing.reviews.length %> <%= listing.reviews.length === 1 ? 'review' : 'reviews' %>
+          </h4>
+        </div>
+
+        <!-- Add Review Form (for logged-in users) -->
+        <% if (currUser) { %>
+          <div class="card p-4 rounded-4 border-light shadow-xs mb-4">
+            <h5 class="fw-bold mb-3">Leave a review</h5>
+            <form action="/listings/<%= listing._id %>/reviews" method="POST" novalidate class="needs-validation">
+              <div class="mb-3">
+                <label class="form-label fw-semibold">Overall Rating</label>
+                <fieldset class="starability-slot">
+                  <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="5" checked aria-label="No rating." />
+                  <input type="radio" id="first-rate1" name="review[rating]" value="1" />
+                  <label for="first-rate1" title="Terrible">1 star</label>
+                  <input type="radio" id="first-rate2" name="review[rating]" value="2" />
+                  <label for="first-rate2" title="Not good">2 stars</label>
+                  <input type="radio" id="first-rate3" name="review[rating]" value="3" />
+                  <label for="first-rate3" title="Average">3 stars</label>
+                  <input type="radio" id="first-rate4" name="review[rating]" value="4" />
+                  <label for="first-rate4" title="Very good">4 stars</label>
+                  <input type="radio" id="first-rate5" name="review[rating]" value="5" />
+                  <label for="first-rate5" title="Amazing">5 stars</label>
+                </fieldset>
+              </div>
+
+              <div class="mb-3">
+                <label for="comment" class="form-label fw-semibold">Your Review</label>
+                <textarea 
+                  name="review[comment]" 
+                  id="comment" 
+                  rows="3" 
+                  class="form-control rounded-3" 
+                  placeholder="What was it like staying at this place? Share your feedback..."
+                  required
+                ></textarea>
+                <div class="invalid-feedback">Please share a few words about your stay.</div>
+              </div>
+
+              <button class="btn btn-dark rounded-pill px-4">Submit Review</button>
+            </form>
+          </div>
+        <% } else { %>
+          <div class="alert alert-light border rounded-4 py-3 px-4 mb-4">
+            <a href="/login" class="fw-bold text-dark text-decoration-underline">Log in</a> to leave a review for this property.
+          </div>
+        <% } %>
+
+        <!-- Reviews Grid -->
+        <div class="row g-4">
+          <% for (let review of listing.reviews) { %>
+            <div class="col-md-6">
+              <div class="review-card-modern">
+                <div>
+                  <div class="review-user-info">
+                    <div class="review-avatar">
+                      <%= review.author && review.author.username ? review.author.username.charAt(0).toUpperCase() : 'G' %>
+                    </div>
+                    <div>
+                      <h6 class="fw-bold mb-0">@<%= review.author && review.author.username ? review.author.username : 'Guest' %></h6>
+                      <small class="text-muted"><%= new Date(review.createdAt).toLocaleDateString("en-US", { month: "short", year: "numeric" }) %></small>
+                    </div>
+                  </div>
+                  <p class="starability-result mb-2" data-rating="<%= review.rating %>"></p>
+                  <p class="text-secondary small mb-3" style="line-height: 1.5;"><%= review.comment %></p>
+                </div>
+
+                <!-- Only Author Can Delete Review -->
+                <% if (currUser && review.author && review.author._id && review.author._id.equals(currUser._id)) { %>
+                  <form method="POST" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE">
+                    <button class="btn btn-sm btn-link text-danger text-decoration-none p-0">
+                      <i class="fa-regular fa-trash-can me-1"></i>Delete
+                    </button>
+                  </form>
+                <% } %>
+              </div>
+            </div>
+          <% } %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Sticky Reservation Box -->
+    <div class="col-lg-5">
+      <div class="sticky-booking-card">
+        <div class="booking-price-header">
+          <div>
+            <span class="booking-price-big">&#8377;<%= Number(listing.price).toLocaleString("en-IN") %></span>
+            <span class="booking-price-period">/ night</span>
+          </div>
+          <div class="small text-muted">
+            <i class="fa-solid fa-star text-warning"></i>
+            <strong><%= listing.reviews.length ? (listing.reviews.reduce((acc, r) => acc + r.rating, 0) / listing.reviews.length).toFixed(1) : "4.9" %></strong>
+            · <%= listing.reviews.length %> reviews
+          </div>
+        </div>
+
+        <!-- Booking Form that submits reservation to MongoDB -->
+        <form action="/bookings" method="POST">
+          <input type="hidden" name="booking[listingId]" value="<%= listing._id %>" />
+          <input type="hidden" name="booking[totalPrice]" id="bookingTotalPriceInput" value="" />
+          <input type="hidden" name="booking[nights]" id="bookingNightsInput" value="5" />
+
+          <!-- Date & Guests Input Matrix -->
+          <div class="booking-inputs-table">
+            <div class="booking-dates-row">
+              <div class="booking-date-col">
+                <label for="checkInDate">CHECK-IN</label>
+                <input type="date" id="checkInDate" name="booking[checkIn]" required />
+              </div>
+              <div class="booking-date-col">
+                <label for="checkOutDate">CHECKOUT</label>
+                <input type="date" id="checkOutDate" name="booking[checkOut]" required />
+              </div>
+            </div>
+            <div class="booking-guests-row">
+              <label for="guestSelect">GUESTS</label>
+              <select id="guestSelect" name="booking[guestsCount]">
+                <option value="1">1 guest</option>
+                <option value="2" selected>2 guests</option>
+                <option value="3">3 guests</option>
+                <option value="4">4 guests</option>
+                <option value="5">5+ guests</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Reserve CTA Button -->
+          <button class="btn btn-reserve-gradient mb-3" type="submit" id="reserveBtn">
+            Reserve
+          </button>
+        </form>
+
+        <p class="text-center text-muted small mb-4">You won't be charged yet</p>
+
+        <!-- Dynamic Price Breakdown -->
+        <div class="price-breakdown-row">
+          <span id="rateLabel">&#8377;<%= Number(listing.price).toLocaleString("en-IN") %> x <span id="numNights">5</span> nights</span>
+          <span id="subtotalVal">&#8377;<%= (Number(listing.price) * 5).toLocaleString("en-IN") %></span>
+        </div>
+        <div class="price-breakdown-row">
+          <span>Cleaning fee</span>
+          <span>&#8377;500</span>
+        </div>
+        <div class="price-breakdown-row">
+          <span>WanderLust service fee</span>
+          <span id="serviceFeeVal">&#8377;<%= Math.round(Number(listing.price) * 5 * 0.05).toLocaleString("en-IN") %></span>
+        </div>
+        <div class="price-breakdown-row">
+          <span>Taxes & GST (18%)</span>
+          <span id="taxFeeVal">&#8377;<%= Math.round(Number(listing.price) * 5 * 0.18).toLocaleString("en-IN") %></span>
+        </div>
+
+        <div class="price-breakdown-total">
+          <span>Total before taxes</span>
+          <span id="grandTotalVal">&#8377;<%= (Number(listing.price) * 5 + 500 + Math.round(Number(listing.price) * 5 * 0.05) + Math.round(Number(listing.price) * 5 * 0.18)).toLocaleString("en-IN") %></span>
+        </div>
+      </div>
+    </div>
   </div>
+</div>
+
+<!-- Fullscreen Photos Gallery Modal -->
+<div class="modal fade" id="photosModal" tabindex="-1" aria-labelledby="photosModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-fullscreen">
+    <div class="modal-content bg-dark text-white">
+      <div class="modal-header border-0 px-4 pt-4">
+        <h5 class="modal-title fw-bold" id="photosModalLabel"><%= listing.title %> · All Photos</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body d-flex align-items-center justify-content-center p-0">
+        <div id="photosCarousel" class="carousel slide w-100" data-bs-ride="false">
+          <div class="carousel-inner text-center">
+            <% for(let i = 0; i < showcaseImages.length; i++) { %>
+              <div class="carousel-item <%= i === 0 ? 'active' : '' %>" id="carouselSlide<%= i %>">
+                <img src="<%= showcaseImages[i].url %>" class="d-inline-block rounded-3 shadow-lg" style="max-height: 80vh; max-width: 90vw; object-fit: contain;" alt="Photo <%= i + 1 %>" />
+                <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded-pill mx-auto py-1 px-3" style="width: fit-content; bottom: 20px;">
+                  Photo <%= i + 1 %> of <%= showcaseImages.length %>
+                </div>
+              </div>
+            <% } %>
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#photosCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon p-3 bg-dark bg-opacity-50 rounded-circle" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#photosCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon p-3 bg-dark bg-opacity-50 rounded-circle" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
+</div>
+
+<!-- Leaflet Map Coordinates & Interactive Scripts -->
+<script>
+  function setActiveSlide(index) {
+    const carouselEl = document.getElementById('photosCarousel');
+    if (carouselEl && window.bootstrap) {
+      const carousel = bootstrap.Carousel.getOrCreateInstance(carouselEl);
+      carousel.to(index);
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    // 1. Initialize Map
+    const coords = <%- JSON.stringify(listing.geometry && listing.geometry.coordinates ? listing.geometry.coordinates : [77.2090, 28.6139]) %>;
+    const lat = coords[1];
+    const lng = coords[0];
+
+    const map = L.map('map').setView([lat, lng], 13);
+
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+
+    const customIcon = L.divIcon({
+      className: 'custom-map-marker',
+      html: '<div style="background:#FF385C;color:#fff;width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,0.3);border:2px solid #fff;"><i class="fa-solid fa-house" style="font-size:16px;"></i></div>',
+      iconSize: [38, 38],
+      iconAnchor: [19, 19]
+    });
+
+    L.marker([lat, lng], { icon: customIcon })
+      .addTo(map)
+      .bindPopup("<b><%= listing.title %></b><br><%= listing.location %>, <%= listing.country %>")
+      .openPopup();
+
+    // 2. Booking Calculator Logic
+    const basePrice = <%= Number(listing.price) %>;
+    const checkInInput = document.getElementById("checkInDate");
+    const checkOutInput = document.getElementById("checkOutDate");
+    const numNightsSpan = document.getElementById("numNights");
+    const subtotalSpan = document.getElementById("subtotalVal");
+    const serviceFeeSpan = document.getElementById("serviceFeeVal");
+    const taxFeeSpan = document.getElementById("taxFeeVal");
+    const grandTotalSpan = document.getElementById("grandTotalVal");
+    const bookingTotalInput = document.getElementById("bookingTotalPriceInput");
+    const bookingNightsInput = document.getElementById("bookingNightsInput");
+
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const inFiveDays = new Date(today);
+    inFiveDays.setDate(inFiveDays.getDate() + 6);
+
+    checkInInput.value = tomorrow.toISOString().split("T")[0];
+    checkOutInput.value = inFiveDays.toISOString().split("T")[0];
+
+    function calculateBooking() {
+      const d1 = new Date(checkInInput.value);
+      const d2 = new Date(checkOutInput.value);
+      const diffTime = d2 - d1;
+      let nights = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      if (nights <= 0) nights = 1;
+
+      const subtotal = basePrice * nights;
+      const cleaning = 500;
+      const service = Math.round(subtotal * 0.05);
+      const tax = Math.round(subtotal * 0.18);
+      const total = subtotal + cleaning + service + tax;
+
+      numNightsSpan.innerText = nights;
+      subtotalSpan.innerText = "₹" + subtotal.toLocaleString("en-IN");
+      serviceFeeSpan.innerText = "₹" + service.toLocaleString("en-IN");
+      taxFeeSpan.innerText = "₹" + tax.toLocaleString("en-IN");
+      grandTotalSpan.innerText = "₹" + total.toLocaleString("en-IN");
+
+      if (bookingTotalInput) bookingTotalInput.value = total;
+      if (bookingNightsInput) bookingNightsInput.value = nights;
+    }
+
+    checkInInput.addEventListener("change", calculateBooking);
+    checkOutInput.addEventListener("change", calculateBooking);
+    calculateBooking();
+  });
+</script>

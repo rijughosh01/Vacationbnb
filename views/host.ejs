@@ -1,0 +1,291 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="host-landing-container">
+  <!-- 1. Hero Section -->
+  <section class="host-hero-section py-5 my-3">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6">
+        <span class="badge bg-danger-subtle text-danger fw-bold px-3 py-2 rounded-pill text-uppercase mb-3">
+          <i class="fa-solid fa-sparkles me-1"></i> WanderLust Setup
+        </span>
+        <h1 class="display-4 fw-extrabold text-dark tracking-tight mb-3">
+          WanderLust it easily. <br />
+          <span class="text-danger">Earn more</span> from your extra space.
+        </h1>
+        <p class="fs-5 text-secondary mb-4" style="line-height: 1.6;">
+          Join thousands of welcoming hosts sharing unique apartments, beachfront villas, rustic cabins, and charming farms with verified travelers worldwide.
+        </p>
+        <div class="d-flex align-items-center gap-3 flex-wrap">
+          <a href="/listings/new" class="btn btn-luxury-primary btn-lg rounded-pill px-5 py-3 fw-bold shadow-sm">
+            <i class="fa-solid fa-house-chimney-medical me-2"></i> Start Hosting Now
+          </a>
+          <a href="#calculator" class="btn btn-outline-dark btn-lg rounded-pill px-4 py-3 fw-semibold">
+            Estimate Earnings
+          </a>
+        </div>
+
+        <div class="d-flex align-items-center gap-4 mt-5 pt-3 border-top">
+          <div>
+            <h4 class="fw-bold mb-0 text-dark">₹45,000+</h4>
+            <small class="text-muted">Avg. Monthly Earnings</small>
+          </div>
+          <div class="border-start ps-4">
+            <h4 class="fw-bold mb-0 text-dark">100%</h4>
+            <small class="text-muted">Host Protection</small>
+          </div>
+          <div class="border-start ps-4">
+            <h4 class="fw-bold mb-0 text-dark">24/7</h4>
+            <small class="text-muted">Dedicated Support</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="position-relative">
+          <div class="rounded-5 overflow-hidden shadow-lg border border-2 border-white">
+            <img 
+              src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1000&q=80" 
+              alt="Luxury Host Villa" 
+              class="w-100 object-fit-cover" 
+              style="height: 480px;"
+            />
+          </div>
+          <!-- Floating Host Review Pill -->
+          <div class="position-absolute bottom-0 start-0 m-4 p-3 bg-white rounded-4 shadow-md border d-flex align-items-center gap-3" style="max-width: 320px;">
+            <img 
+              src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80" 
+              alt="Host Portrait" 
+              class="rounded-circle object-fit-cover" 
+              style="width: 50px; height: 50px;"
+            />
+            <div>
+              <div class="fw-bold small text-dark">"Hosting paid off my mortgage in 18 months."</div>
+              <div class="small text-muted">Sarah & Marc · Superhosts in Goa</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Interactive Earnings Calculator -->
+  <section class="earnings-calculator-section py-5 my-5 bg-subtle rounded-5 p-4 p-md-5" id="calculator">
+    <div class="text-center max-w-700 mx-auto mb-5">
+      <span class="badge bg-secondary-subtle text-dark fw-bold px-3 py-1 rounded-pill text-uppercase mb-2">Earnings Estimator</span>
+      <h2 class="display-5 fw-bold text-dark mb-2">WanderLust it. You could earn</h2>
+      <div class="display-3 fw-extrabold text-danger my-3" id="calcTotalEarnings">&#8377;24,500</div>
+      <p class="text-muted fs-5">
+        <span id="calcNightsDisplay" class="fw-bold text-dark">7 nights</span> at an estimated 
+        <span id="calcRateDisplay" class="fw-bold text-dark">&#8377;3,500</span> a night
+      </p>
+    </div>
+
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 bg-white">
+          <!-- Nights Slider -->
+          <div class="mb-4">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <label for="nightsRange" class="fw-bold text-dark">Nights booked per month:</label>
+              <span class="badge bg-dark fs-6 px-3 py-1 rounded-pill" id="nightsBadge">7 nights</span>
+            </div>
+            <input type="range" class="form-range" id="nightsRange" min="1" max="30" value="7">
+            <div class="d-flex justify-content-between text-muted small">
+              <span>1 night</span>
+              <span>15 nights</span>
+              <span>30 nights</span>
+            </div>
+          </div>
+
+          <!-- Nightly Rate Slider -->
+          <div class="mb-4">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <label for="rateRange" class="fw-bold text-dark">Your estimated nightly rate (&#8377;):</label>
+              <span class="badge bg-danger fs-6 px-3 py-1 rounded-pill" id="rateBadge">&#8377;3,500</span>
+            </div>
+            <input type="range" class="form-range" id="rateRange" min="1000" max="20000" step="500" value="3500">
+            <div class="d-flex justify-content-between text-muted small">
+              <span>&#8377;1,000</span>
+              <span>&#8377;10,000</span>
+              <span>&#8377;20,000</span>
+            </div>
+          </div>
+
+          <!-- Earnings Breakdown Bar -->
+          <div class="p-3 bg-light rounded-3 d-flex justify-content-between align-items-center flex-wrap gap-2 mt-2">
+            <div>
+              <span class="text-muted small d-block">Projected Annual Income:</span>
+              <strong class="fs-5 text-dark" id="calcYearlyEarnings">&#8377;2,94,000 / year</strong>
+            </div>
+            <a href="/listings/new" class="btn btn-dark rounded-pill px-4 py-2 fw-semibold">
+              Publish Your Space
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. How It Works (3 Steps) -->
+  <section class="py-5 my-4">
+    <div class="text-center mb-5">
+      <h2 class="display-6 fw-bold text-dark">WanderLust Setup is simple</h2>
+      <p class="text-muted fs-5">Everything you need to go from an idea to your first booking.</p>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm rounded-4 p-4 p-xl-5 text-center">
+          <div class="mx-auto mb-4 bg-danger-subtle text-danger rounded-circle d-flex align-items-center justify-content-center" style="width: 70px; height: 70px;">
+            <i class="fa-solid fa-list-check fs-2"></i>
+          </div>
+          <h4 class="fw-bold text-dark mb-2">1. Tell us about your space</h4>
+          <p class="text-secondary mb-0">Share basic details like location, property category, amenities, and how many guests can stay comfortably.</p>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm rounded-4 p-4 p-xl-5 text-center">
+          <div class="mx-auto mb-4 bg-danger-subtle text-danger rounded-circle d-flex align-items-center justify-content-center" style="width: 70px; height: 70px;">
+            <i class="fa-solid fa-camera fs-2"></i>
+          </div>
+          <h4 class="fw-bold text-dark mb-2">2. Make it stand out</h4>
+          <p class="text-secondary mb-0">Add high-resolution photos, a catchy title, a thoughtful description, and your custom nightly price.</p>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm rounded-4 p-4 p-xl-5 text-center">
+          <div class="mx-auto mb-4 bg-danger-subtle text-danger rounded-circle d-flex align-items-center justify-content-center" style="width: 70px; height: 70px;">
+            <i class="fa-solid fa-champagne-glasses fs-2"></i>
+          </div>
+          <h4 class="fw-bold text-dark mb-2">3. Welcome your guests</h4>
+          <p class="text-secondary mb-0">Once published, guests can discover your home. Receive payouts automatically and securely on check-in day.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. AirCover / Host Protection Guarantee -->
+  <section class="py-5 my-5 bg-dark text-white rounded-5 p-4 p-md-5">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6">
+        <span class="badge bg-danger text-white px-3 py-2 rounded-pill fw-bold text-uppercase mb-3">WanderCover</span>
+        <h2 class="display-5 fw-bold mb-3">Top-to-bottom protection for every host.</h2>
+        <p class="fs-5 text-light opacity-75 mb-4">
+          WanderLust includes top-tier protection for every booking, included completely free for hosts:
+        </p>
+        <ul class="list-unstyled d-flex flex-column gap-3 fs-5">
+          <li><i class="fa-solid fa-circle-check text-danger me-2"></i> <strong>₹10,00,000</strong> property damage protection</li>
+          <li><i class="fa-solid fa-circle-check text-danger me-2"></i> <strong>₹10,00,000</strong> host liability insurance</li>
+          <li><i class="fa-solid fa-circle-check text-danger me-2"></i> 24-hour dedicated safety & hotline support</li>
+          <li><i class="fa-solid fa-circle-check text-danger me-2"></i> 100% verified guest identity screening</li>
+        </ul>
+      </div>
+      <div class="col-lg-6 text-center">
+        <div class="p-4 bg-secondary bg-opacity-25 rounded-4 border border-secondary">
+          <i class="fa-solid fa-shield-heart text-danger mb-3" style="font-size: 5rem;"></i>
+          <h4 class="fw-bold mb-2">You're always protected</h4>
+          <p class="text-light opacity-75 mb-0">Host with complete peace of mind knowing WanderCover has your back on every single stay.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. FAQ Accordion -->
+  <section class="py-5 my-4">
+    <div class="text-center max-w-700 mx-auto mb-5">
+      <h2 class="display-6 fw-bold text-dark">Frequently Asked Questions</h2>
+      <p class="text-muted">Everything you need to know about getting started.</p>
+    </div>
+
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="accordion accordion-flush shadow-sm rounded-4 border overflow-hidden" id="hostFaqAccordion">
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button fw-bold text-dark" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                Is my place eligible for WanderLust?
+              </button>
+            </h2>
+            <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#hostFaqAccordion">
+              <div class="accordion-body text-secondary">
+                Yes! WanderLust guests look for all kinds of spaces: spare bedrooms, entire houses, vacation villas, beach shacks, rustic farms, and unique glamping domes.
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed fw-bold text-dark" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                How do I set my prices and house rules?
+              </button>
+            </h2>
+            <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#hostFaqAccordion">
+              <div class="accordion-body text-secondary">
+                You have 100% control over your nightly rate, calendar availability, check-in requirements, and specific house rules. You can change them anytime.
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed fw-bold text-dark" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                How and when do I get paid?
+              </button>
+            </h2>
+            <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#hostFaqAccordion">
+              <div class="accordion-body text-secondary">
+                WanderLust securely releases your payouts approximately 24 hours after your guest's scheduled check-in time via direct bank transfer or UPI.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Bottom Call to Action -->
+  <section class="text-center py-5 my-5 bg-danger-subtle rounded-5 p-5">
+    <h2 class="display-5 fw-bold text-dark mb-3">Ready to WanderLust your home?</h2>
+    <p class="fs-5 text-secondary max-w-700 mx-auto mb-4">
+      Join thousands of hosts earning extra income and meeting wonderful travelers today.
+    </p>
+    <a href="/listings/new" class="btn btn-luxury-primary btn-lg rounded-pill px-5 py-3 fw-bold shadow-sm">
+      <i class="fa-solid fa-sparkles me-2"></i> Get Started with WanderLust
+    </a>
+  </section>
+</div>
+
+<!-- Interactive Calculator Script -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const nightsRange = document.getElementById("nightsRange");
+    const rateRange = document.getElementById("rateRange");
+    const nightsBadge = document.getElementById("nightsBadge");
+    const rateBadge = document.getElementById("rateBadge");
+    const calcTotal = document.getElementById("calcTotalEarnings");
+    const calcNightsDisplay = document.getElementById("calcNightsDisplay");
+    const calcRateDisplay = document.getElementById("calcRateDisplay");
+    const calcYearlyEarnings = document.getElementById("calcYearlyEarnings");
+
+    function updateCalculator() {
+      const nights = parseInt(nightsRange.value, 10);
+      const rate = parseInt(rateRange.value, 10);
+      const monthlyTotal = nights * rate;
+      const yearlyTotal = monthlyTotal * 12;
+
+      nightsBadge.innerText = nights + (nights === 1 ? " night" : " nights");
+      rateBadge.innerText = "₹" + rate.toLocaleString("en-IN");
+      calcTotal.innerText = "₹" + monthlyTotal.toLocaleString("en-IN");
+      calcNightsDisplay.innerText = nights + (nights === 1 ? " night" : " nights");
+      calcRateDisplay.innerText = "₹" + rate.toLocaleString("en-IN");
+      calcYearlyEarnings.innerText = "₹" + yearlyTotal.toLocaleString("en-IN") + " / year";
+    }
+
+    nightsRange.addEventListener("input", updateCalculator);
+    rateRange.addEventListener("input", updateCalculator);
+    updateCalculator();
+  });
+</script>
+

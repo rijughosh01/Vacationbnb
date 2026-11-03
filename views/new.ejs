@@ -1,49 +1,127 @@
 <% layout("/layouts/boilerplate") %>
-<div class="row mt-3">
-    <div class="col-8 offset-2">
-        <!-- <br /><br /> -->
-    <h3>Create a New Listing</h3>
-    <form method="POST" action="/listings" novalidate class="needs-validation" enctype="multipart/form-data">
+
+<div class="row mt-4 mb-5">
+  <div class="col-lg-8 offset-lg-2">
+    <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5">
+      <div class="mb-4">
+        <h2 class="fw-bold mb-1"><i class="fa-solid fa-house-chimney-medical text-danger me-2"></i>Host a New Space</h2>
+        <p class="text-muted">Fill in the details to publish your listing on WanderLust.</p>
+      </div>
+
+      <form method="POST" action="/listings" novalidate class="needs-validation" enctype="multipart/form-data">
+        <!-- Title -->
         <div class="mb-3">
-        <label for="title" class="form-label">Title</label>
-        <input name="listing[title]" placeholder="Add a catchy title" type="text" class="form-control" required />
-        <div class="valid-feedback">Title looks good!</div>
+          <label for="title" class="form-label fw-semibold">Listing Title</label>
+          <input 
+            name="listing[title]" 
+            id="title"
+            placeholder="e.g. Luxury Seaview Villa with Infinity Pool" 
+            type="text" 
+            class="form-control form-control-luxury" 
+            required 
+          />
+          <div class="valid-feedback">Catchy title!</div>
+          <div class="invalid-feedback">Please provide a listing title.</div>
         </div>
 
+        <!-- Description -->
         <div class="mb-3">
-        <label for="description" class="form-label">Description</label>
-        <textarea name="listing[description]" class="form-control" required></textarea>
-        <div class="invalid-feedback">Please enter a short description</div>
+          <label for="description" class="form-label fw-semibold">Description</label>
+          <textarea 
+            name="listing[description]" 
+            id="description"
+            rows="4" 
+            class="form-control form-control-luxury" 
+            placeholder="Describe what makes your space special, views, bed arrangements, nearby spots..."
+            required
+          ></textarea>
+          <div class="invalid-feedback">Please enter a short description.</div>
         </div>
 
+        <!-- Category & Price in Two Columns -->
+        <div class="row g-3 mb-3">
+          <div class="col-md-6">
+            <label for="category" class="form-label fw-semibold">Property Category</label>
+            <select name="listing[category]" id="category" class="form-select form-control-luxury" required>
+              <option value="Trending" selected>Trending</option>
+              <option value="Rooms">Rooms</option>
+              <option value="Iconic cities">Iconic cities</option>
+              <option value="Mountains">Mountains</option>
+              <option value="Castles">Castles</option>
+              <option value="Amazing Pools">Amazing Pools</option>
+              <option value="Camping">Camping</option>
+              <option value="Farms">Farms</option>
+              <option value="Arctic">Arctic</option>
+              <option value="Beachfront">Beachfront</option>
+              <option value="Luxury">Luxury</option>
+            </select>
+          </div>
+
+          <div class="col-md-6">
+            <label for="price" class="form-label fw-semibold">Nightly Price (&#8377; INR)</label>
+            <div class="input-group">
+              <span class="input-group-text bg-white border-end-0">&#8377;</span>
+              <input 
+                name="listing[price]" 
+                id="price"
+                type="number" 
+                placeholder="2500" 
+                min="1" 
+                class="form-control form-control-luxury border-start-0" 
+                required 
+              />
+              <div class="invalid-feedback">Please enter a valid price.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Image Upload -->
         <div class="mb-3">
-        <label for="image" class="form-label">Uplode Listing Image</label>
-        <input name="listing[image]" type="file" class="form-control" />
-        <!-- required -->
+          <label for="images" class="form-label fw-semibold">Upload Photos (Up to 5)</label>
+          <input 
+            name="listing[images]" 
+            id="images"
+            type="file" 
+            class="form-control form-control-luxury" 
+            accept="image/*"
+            multiple
+          />
+          <small class="text-muted">Select up to 5 photos for the showcase mosaic grid. (If left blank, curated high-def images are provided automatically).</small>
         </div>
 
-        <div class="row">
-            <div class="mb-3 col-md-4">
-                <label for="price" class="form-label">Price</label>
-                <input name="listing[price]" placeholder="100000" class="form-control" required />
-                <div class="invalid-feedback">Price should be valid</div>
-                </div>
-        
-                <div class="mb-3 col-md-8">
-                <label for="country" class="form-label">Country</label>
-                <input name="listing[country]" placeholder="India" type="text" class="form-control" required /> 
-                <div class="invalid-feedback">Country name should be valid</div>
-                </div>
+        <!-- Location & Country -->
+        <div class="row g-3 mb-4">
+          <div class="col-md-6">
+            <label for="location" class="form-label fw-semibold">City / Location</label>
+            <input 
+              name="listing[location]" 
+              id="location"
+              placeholder="e.g. South Goa, Goa" 
+              type="text" 
+              class="form-control form-control-luxury" 
+              required 
+            />
+            <div class="invalid-feedback">Please enter your city or neighborhood.</div>
+          </div>
+
+          <div class="col-md-6">
+            <label for="country" class="form-label fw-semibold">Country</label>
+            <input 
+              name="listing[country]" 
+              id="country"
+              placeholder="e.g. India" 
+              type="text" 
+              class="form-control form-control-luxury" 
+              required 
+            />
+            <div class="invalid-feedback">Please enter the country.</div>
+          </div>
         </div>
 
-        <div class="mb-3">
-        <label for="location" class="form-label">Location</label>
-        <input name="listing[location]" placeholder="Kolkata, West Bangal" type="text" class="form-control" required />
-        <div class="invalid-feedback">Location should be valid</div>
-        </div>
-
-        <button class="btn btn-dark add-btn mt-3">Add</button>
-        <br /><br />
-    </form>
-</div>
+        <button class="btn btn-luxury-primary py-3 rounded-pill fw-bold fs-5">
+          <i class="fa-solid fa-cloud-arrow-up me-2"></i>Publish Listing
+        </button>
+      </form>
+    </div>
+  </div>
 </div>

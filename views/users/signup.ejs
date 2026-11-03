@@ -1,23 +1,62 @@
 <% layout("/layouts/boilerplate") %>
 
-<div class="row mt-3">
-    <h1 class="col-6 offset-3">SignUp on Wanderlust</h1>
-    <div class="col-6 offset-3">
-        <form action="/signup" method="POST" class="needs-validation" novalidate>
-            <div class="mb-3">
-                <label for="username" class="form-label">Username</label>
-                <input name="username" id="username" type="text" class="form-control" required />
-                <div class="valid-feedback">Looks good!</div>
-                </div>
-                <div class="mb-3">
-                    <label for="email" class="form-label">Email</label>
-                    <input name="email" id="email" type="email" class="form-control" required />
-                </div>
-                <div class="mb-3">
-                    <label for="password" class="form-label">Password</label>
-                    <input name="password" id="password" type="password" class="form-control" required />
-                </div>
-                <button class="btn btn-success">SignUp</button>
-        </form>
+<div class="auth-wrapper">
+  <div class="auth-header">
+    <div class="mb-3">
+      <i class="fa-regular fa-compass fs-1 text-danger"></i>
     </div>
+    <h2>Join the WanderLust Community</h2>
+    <p class="text-muted">Create an account to explore and host unique stays.</p>
+  </div>
+
+  <form action="/signup" method="POST" class="needs-validation" novalidate>
+    <div class="mb-3">
+      <label for="username" class="form-label fw-semibold">Username</label>
+      <input 
+        name="username" 
+        id="username" 
+        type="text" 
+        class="form-control form-control-luxury" 
+        placeholder="Choose a username"
+        required 
+      />
+      <div class="valid-feedback">Looks great!</div>
+      <div class="invalid-feedback">Please choose a username.</div>
+    </div>
+
+    <div class="mb-3">
+      <label for="email" class="form-label fw-semibold">Email address</label>
+      <input 
+        name="email" 
+        id="email" 
+        type="email" 
+        class="form-control form-control-luxury" 
+        placeholder="name@example.com"
+        required 
+      />
+      <div class="invalid-feedback">Please enter a valid email address.</div>
+    </div>
+
+    <div class="mb-4">
+      <label for="password" class="form-label fw-semibold">Password</label>
+      <input 
+        name="password" 
+        id="password" 
+        type="password" 
+        class="form-control form-control-luxury" 
+        placeholder="At least 6 characters"
+        minlength="6"
+        required 
+      />
+      <div class="invalid-feedback">Password must be at least 6 characters.</div>
+    </div>
+
+    <button class="btn btn-luxury-primary mb-3">
+      Create Account
+    </button>
+
+    <div class="text-center text-muted small mt-3">
+      Already have an account? <a href="/login" class="text-dark fw-bold text-decoration-underline">Log in</a>
+    </div>
+  </form>
 </div>

@@ -1,0 +1,84 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="container-fluid px-lg-5 px-3 py-4">
+  <div class="row g-5">
+    <!-- Left Column: User Profile Card -->
+    <div class="col-lg-4">
+      <div class="card border-0 shadow-sm rounded-4 p-4 text-center bg-white">
+        <div class="mx-auto mb-3 bg-dark text-white rounded-circle d-flex align-items-center justify-content-center shadow-sm" style="width: 100px; height: 100px; font-size: 2.5rem; font-weight: 800;">
+          <%= user.username.charAt(0).toUpperCase() %>
+        </div>
+        <h3 class="fw-bold mb-1"><%= user.username %></h3>
+        <p class="text-muted small mb-3">
+          <i class="fa-solid fa-shield-halved text-success me-1"></i> Identity Verified · Superhost
+        </p>
+        <p class="text-secondary small fst-italic px-2 mb-4">
+          "<%= user.bio || 'Exploring the world, one unique stay at a time.' %>"
+        </p>
+
+        <!-- Stats Row -->
+        <div class="d-flex justify-content-around py-3 border-top border-bottom mb-4">
+          <div>
+            <h5 class="fw-bold mb-0"><%= myListingCount %></h5>
+            <small class="text-muted">Listings</small>
+          </div>
+          <div class="border-start ps-3">
+            <h5 class="fw-bold mb-0"><%= myTripsCount %></h5>
+            <small class="text-muted">Trips</small>
+          </div>
+          <div class="border-start ps-3">
+            <h5 class="fw-bold mb-0"><%= myReviewCount %></h5>
+            <small class="text-muted">Reviews</small>
+          </div>
+        </div>
+
+        <a href="/dashboard" class="btn btn-outline-dark rounded-pill w-100 fw-semibold mb-2">
+          <i class="fa-solid fa-chart-line me-2"></i>Open Host Dashboard
+        </a>
+        <a href="/listings/new" class="btn btn-luxury-primary rounded-pill w-100 fw-semibold">
+          <i class="fa-solid fa-plus me-2"></i>Create New Listing
+        </a>
+      </div>
+    </div>
+
+    <!-- Right Column: Profile Settings & Info -->
+    <div class="col-lg-8">
+      <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 bg-white">
+        <h3 class="fw-bold mb-2">Profile Details</h3>
+        <p class="text-muted mb-4">Manage your personal information and public bio.</p>
+
+        <form action="/profile" method="POST" class="needs-validation" novalidate>
+          <div class="row g-3 mb-3">
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">Username</label>
+              <input type="text" class="form-control form-control-luxury bg-light" value="<%= user.username %>" readonly disabled />
+              <small class="text-muted">Username cannot be changed.</small>
+            </div>
+
+            <div class="col-md-6">
+              <label for="email" class="form-label fw-semibold">Email Address</label>
+              <input type="email" id="email" name="email" class="form-control form-control-luxury" value="<%= user.email %>" required />
+              <div class="invalid-feedback">Please enter a valid email address.</div>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="phone" class="form-label fw-semibold">Phone Number</label>
+            <input type="tel" id="phone" name="phone" class="form-control form-control-luxury" placeholder="+91 98765 43210" value="<%= user.phone || '' %>" />
+            <small class="text-muted">Used for urgent booking updates and guest coordination.</small>
+          </div>
+
+          <div class="mb-4">
+            <label for="bio" class="form-label fw-semibold">About You (Bio)</label>
+            <textarea id="bio" name="bio" rows="4" class="form-control form-control-luxury" placeholder="Tell travelers about your interests, favorite destinations, or what you love about hosting..."><%= user.bio || '' %></textarea>
+          </div>
+
+          <button class="btn btn-dark rounded-pill px-5 py-2 fw-semibold">
+            Save Changes
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+

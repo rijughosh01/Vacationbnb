@@ -1,120 +1,245 @@
-<% layout("/layouts/boilerplate") %> 
-<body>
+<% layout("/layouts/boilerplate") %>
 
+<!-- Category & Filters Header -->
+<div class="categories-container">
+  <div class="category-scroll">
+    <a href="/listings" class="category-pill <%= currentCategory === 'All' ? 'active' : '' %>">
+      <i class="fa-solid fa-border-all"></i>
+      <span>All</span>
+    </a>
+    <a href="/listings?category=Trending" class="category-pill <%= currentCategory === 'Trending' ? 'active' : '' %>">
+      <i class="fa-solid fa-fire"></i>
+      <span>Trending</span>
+    </a>
+    <a href="/listings?category=Rooms" class="category-pill <%= currentCategory === 'Rooms' ? 'active' : '' %>">
+      <i class="fa-solid fa-bed"></i>
+      <span>Rooms</span>
+    </a>
+    <a href="/listings?category=Iconic cities" class="category-pill <%= currentCategory === 'Iconic cities' ? 'active' : '' %>">
+      <i class="fa-solid fa-mountain-city"></i>
+      <span>Iconic cities</span>
+    </a>
+    <a href="/listings?category=Mountains" class="category-pill <%= currentCategory === 'Mountains' ? 'active' : '' %>">
+      <i class="fa-solid fa-mountain-sun"></i>
+      <span>Mountains</span>
+    </a>
+    <a href="/listings?category=Castles" class="category-pill <%= currentCategory === 'Castles' ? 'active' : '' %>">
+      <i class="fa-brands fa-fort-awesome"></i>
+      <span>Castles</span>
+    </a>
+    <a href="/listings?category=Amazing Pools" class="category-pill <%= currentCategory === 'Amazing Pools' ? 'active' : '' %>">
+      <i class="fa-solid fa-person-swimming"></i>
+      <span>Amazing Pools</span>
+    </a>
+    <a href="/listings?category=Camping" class="category-pill <%= currentCategory === 'Camping' ? 'active' : '' %>">
+      <i class="fa-solid fa-campground"></i>
+      <span>Camping</span>
+    </a>
+    <a href="/listings?category=Farms" class="category-pill <%= currentCategory === 'Farms' ? 'active' : '' %>">
+      <i class="fa-solid fa-cow"></i>
+      <span>Farms</span>
+    </a>
+    <a href="/listings?category=Arctic" class="category-pill <%= currentCategory === 'Arctic' ? 'active' : '' %>">
+      <i class="fa-regular fa-snowflake"></i>
+      <span>Arctic</span>
+    </a>
+    <a href="/listings?category=Beachfront" class="category-pill <%= currentCategory === 'Beachfront' ? 'active' : '' %>">
+      <i class="fa-solid fa-umbrella-beach"></i>
+      <span>Beachfront</span>
+    </a>
+  </div>
 
-  <style>
-    #filters {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-    }
+  <!-- Actions (Filters Button + Tax Toggle) -->
+  <div class="d-flex align-items-center gap-3 flex-shrink-0">
+    <button class="btn btn-outline-dark rounded-4 d-flex align-items-center gap-2 px-3 py-2 fw-semibold" data-bs-toggle="modal" data-bs-target="#advancedFilterModal">
+      <i class="fa-solid fa-sliders"></i> Filters
+      <% const activeFilterCount = (minPrice ? 1 : 0) + (maxPrice ? 1 : 0) + (selectedAmenities && selectedAmenities.length ? selectedAmenities.length : 0); %>
+      <% if (activeFilterCount > 0) { %>
+        <span class="badge bg-danger rounded-pill"><%= activeFilterCount %></span>
+      <% } %>
+    </button>
 
-    .filter {
-      text-align: center;
-      margin-right: 2rem;
-      margin-top: 2rem;
-      opacity: 0.7;
-    }
-
-    .filter:hover {
-      opacity: 1;
-      cursor: pointer;
-    }
-    .filter p {
-      font-size: 0.8rem;
-    }
-
-    .tax-info {
-      display: none;
-    }
-
-    .tax-toggle {
-      border: 1px solid black;
-      border-radius: 1rem;
-      height: 3.25rem;
-      padding: 1rem;
-      margin-left: 2rem;
-      display: flex;
-      align-items: center;
-    }
-  </style>
-
-
-    <div id="filters">
-      <div class="filter">
-        <div><i class="fa-solid fa-fire"></i></div>
-        <p>Trending</p>
+    <div class="tax-toggle-box">
+      <div class="form-check form-switch m-0 d-flex align-items-center gap-2">
+        <input class="form-check-input" type="checkbox" role="switch" id="taxSwitch">
+        <label class="form-check-label" for="taxSwitch">Display total after taxes</label>
       </div>
-      <div class="filter">
-        <div><i class="fa-solid fa-bed"></i></div>
-        <p>Rooms</p>
-      </div>
-      <div class="filter">
-        <div><i class="fa-solid fa-mountain-city"></i></div>
-        <p>Iconic cities</p>
-      </div>
-      <div class="filter">
-        <div><i class="fa-solid fa-mountain-sun"></i></div>
-        <p>Mountains</p>
-      </div>
-      <div class="filter">
-        <div><i class="fa-brands fa-fort-awesome"></i></div>
-        <p>Castles</p>
-      </div>
-      <div class="filter">
-        <div><i class="fa-solid fa-person-swimming"></i></div>
-        <p>Amazing Pools</p>
-      </div>
-      <div class="filter">
-        <div><i class="fa-solid fa-campground"></i></div>
-        <p>Camping</p>
-      </div>
-      <div class="filter">
-        <div><i class="fa-solid fa-cow"></i></div>
-        <p>Farms</p>
-      </div>
-      <div class="filter">
-        <div><i class="fa-regular fa-snowflake"></i></div>
-        <p>Arctic</p>
-      </div>
-
-      <div class="tax-toggle">
-        <div class="form-check-reverse form-switch">
-          <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-          <label class="form-check-label" for="flexSwitchCheckDefault">Display total after taxes</label>
-        </div>
-      </div>
-
     </div>
-    <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3">
-        <% for(let listing of allListings) { %>
-            <a href="/listings/<%= listing._id %>" class="listing-link">
-            <div class="card col listing-card">
-                <img src="<%= listing.image.url %>" class="card-img-top" alt="listing_image" style="height: 20rem" />
-                <div class="card-img-overlay"></div>
-                <div class="card-body">
-                  <p class="card-text">
-                   <b><%= listing.title %></b> <br />
-                    &#8377; <%= listing.price.toLocaleString("en-IN") %> /Day
-                    <i class="tax-info"> &nbsp; &nbsp;+18% GST</i>
-                  </p>
+  </div>
+</div>
+
+<!-- Active Filter Pills Notification -->
+<% if ((typeof searchQuery !== 'undefined' && searchQuery) || activeFilterCount > 0) { %>
+  <div class="d-flex align-items-center justify-content-between mb-4 pb-2 border-bottom flex-wrap gap-2">
+    <div class="d-flex align-items-center gap-2 flex-wrap">
+      <% if (searchQuery) { %>
+        <span class="badge bg-light text-dark border p-2">Search: "<%= searchQuery %>"</span>
+      <% } %>
+      <% if (minPrice) { %>
+        <span class="badge bg-light text-dark border p-2">Min: &#8377;<%= Number(minPrice).toLocaleString("en-IN") %></span>
+      <% } %>
+      <% if (maxPrice) { %>
+        <span class="badge bg-light text-dark border p-2">Max: &#8377;<%= Number(maxPrice).toLocaleString("en-IN") %></span>
+      <% } %>
+      <% if (selectedAmenities && selectedAmenities.length) { %>
+        <% for(let a of selectedAmenities) { %>
+          <span class="badge bg-light text-dark border p-2"><i class="fa-solid fa-check text-success me-1"></i><%= a %></span>
+        <% } %>
+      <% } %>
+    </div>
+    <a href="/listings" class="btn btn-sm btn-outline-dark rounded-pill px-3">Clear all filters</a>
+  </div>
+<% } %>
+
+<!-- Listings Grid -->
+<% if (allListings.length === 0) { %>
+  <div class="text-center py-5 my-5">
+    <div class="mb-3">
+      <i class="fa-regular fa-compass fs-1 text-muted"></i>
+    </div>
+    <h3 class="fw-bold mb-2">No listings found</h3>
+    <p class="text-muted mb-4">Try adjusting your price range or amenities in the filter modal.</p>
+    <a href="/listings" class="btn btn-luxury-primary rounded-pill px-4">Browse All Listings</a>
+  </div>
+<% } else { %>
+  <div class="row row-cols-xl-4 row-cols-lg-3 row-cols-md-2 row-cols-1 g-4 mb-5">
+    <% for(let listing of allListings) { %>
+      <div class="col">
+        <a href="/listings/<%= listing._id %>" class="listing-card-link">
+          <div class="card luxury-card h-100">
+            <!-- Image Showcase -->
+            <div class="card-img-wrapper">
+              <img 
+                src="<%= listing.image && listing.image.url ? listing.image.url : (listing.images && listing.images.length ? listing.images[0].url : 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=800&q=60') %>" 
+                alt="<%= listing.title %>"
+                loading="lazy"
+              />
+              <span class="card-category-badge"><%= listing.category || 'Trending' %></span>
+              <button class="card-heart-btn" type="button" onclick="event.preventDefault(); this.classList.toggle('text-danger');">
+                <i class="fa-solid fa-heart"></i>
+              </button>
+            </div>
+
+            <!-- Card Details -->
+            <div class="card-info">
+              <div class="card-title-row">
+                <span class="text-truncate me-2"><%= listing.title %></span>
+                <span class="fw-normal small text-nowrap"><i class="fa-solid fa-star text-warning me-1"></i>4.92</span>
+              </div>
+              <div class="card-location-sub text-truncate">
+                <%= listing.location %>, <%= listing.country %>
+              </div>
+              <div class="card-price-row">
+                <!-- Base Price (Default) -->
+                <span class="base-price">
+                  <span class="card-price-val">&#8377;<%= Number(listing.price).toLocaleString("en-IN") %></span> / night
+                </span>
+                <!-- Tax Included Price (Toggled) -->
+                <span class="tax-price d-none">
+                  <span class="card-price-val">&#8377;<%= Math.round(Number(listing.price) * 1.18).toLocaleString("en-IN") %></span> total after tax
+                  <i class="tax-badge-info d-inline">(incl. 18% GST)</i>
+                </span>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    <% } %>
+  </div>
+<% } %>
+
+<!-- Advanced Filter Modal -->
+<div class="modal fade" id="advancedFilterModal" tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content rounded-4 border-0 shadow-lg">
+      <div class="modal-header border-bottom px-4 py-3">
+        <h5 class="modal-title fw-bold" id="filterModalLabel">Filters</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <form action="/listings" method="GET">
+        <% if (currentCategory && currentCategory !== 'All') { %>
+          <input type="hidden" name="category" value="<%= currentCategory %>" />
+        <% } %>
+        <% if (searchQuery) { %>
+          <input type="hidden" name="q" value="<%= searchQuery %>" />
+        <% } %>
+
+        <div class="modal-body p-4">
+          <!-- Price Range Section -->
+          <div class="mb-4 pb-4 border-bottom">
+            <h6 class="fw-bold mb-1">Price range</h6>
+            <p class="text-muted small mb-3">Nightly prices before taxes and fees</p>
+            <div class="row g-3">
+              <div class="col-6">
+                <label for="minPrice" class="form-label small text-muted">Minimum (&#8377;)</label>
+                <div class="input-group">
+                  <span class="input-group-text bg-white">&#8377;</span>
+                  <input type="number" id="minPrice" name="minPrice" class="form-control" placeholder="1000" min="0" value="<%= minPrice %>" />
                 </div>
               </div>
-            </a>
-              <%  } %>       
-    </div>
-    </body>
+              <div class="col-6">
+                <label for="maxPrice" class="form-label small text-muted">Maximum (&#8377;)</label>
+                <div class="input-group">
+                  <span class="input-group-text bg-white">&#8377;</span>
+                  <input type="number" id="maxPrice" name="maxPrice" class="form-control" placeholder="10000" min="0" value="<%= maxPrice %>" />
+                </div>
+              </div>
+            </div>
+          </div>
 
-    <script>
-      let taxSwitch = document.getElementById("flexSwitchCheckDefault");
-      taxSwitch.addEventListener("click", () => {
-        let taxInfo = document.getElementsByClassName("tax-info");
-        for (info of taxInfo) {
-          if (info.style.display != "inline") {
-            info.style.display = "inline";
-          } else {
-            info.style.display = "none";
-          }
-        }
-      });
-    </script>
+          <!-- Amenities Section -->
+          <div class="mb-4 pb-4 border-bottom">
+            <h6 class="fw-bold mb-3">Amenities</h6>
+            <div class="row g-3">
+              <% const allFilterAmenities = [
+                { name: "Fast Wifi (150 Mbps)", label: "Fast Wifi", icon: "fa-wifi" },
+                { name: "Free parking on premises", label: "Free parking", icon: "fa-square-parking" },
+                { name: "Air conditioning", label: "Air conditioning", icon: "fa-snowflake" },
+                { name: "Dedicated workspace", label: "Dedicated workspace", icon: "fa-laptop" },
+                { name: "Kitchen & Refrigerator", label: "Kitchen", icon: "fa-kitchen-set" },
+                { name: "HDTV with Netflix", label: "TV", icon: "fa-tv" }
+              ]; %>
+              <% for(let a of allFilterAmenities) { %>
+                <div class="col-md-6">
+                  <div class="form-check d-flex align-items-center gap-2">
+                    <input 
+                      class="form-check-input" 
+                      type="checkbox" 
+                      name="amenities" 
+                      value="<%= a.name %>" 
+                      id="amen_<%= a.label.replace(/\s+/g, '') %>"
+                      <%= selectedAmenities && selectedAmenities.includes(a.name) ? 'checked' : '' %>
+                    />
+                    <label class="form-check-label d-flex align-items-center gap-2 cursor-pointer" for="amen_<%= a.label.replace(/\s+/g, '') %>">
+                      <i class="fa-solid <%= a.icon %> text-secondary"></i> <%= a.label %>
+                    </label>
+                  </div>
+                </div>
+              <% } %>
+            </div>
+          </div>
+
+          <!-- Property Category Section -->
+          <div class="mb-2">
+            <h6 class="fw-bold mb-3">Property Category</h6>
+            <div class="d-flex flex-wrap gap-2">
+              <% const modalCats = ["Trending", "Rooms", "Iconic cities", "Mountains", "Castles", "Amazing Pools", "Camping", "Farms", "Arctic", "Beachfront"]; %>
+              <% for(let cat of modalCats) { %>
+                <div class="form-check form-check-inline m-0">
+                  <input class="btn-check" type="radio" name="category" id="cat_<%= cat.replace(/\s+/g, '') %>" value="<%= cat %>" <%= currentCategory === cat ? 'checked' : '' %>>
+                  <label class="btn btn-outline-dark rounded-pill btn-sm px-3" for="cat_<%= cat.replace(/\s+/g, '') %>"><%= cat %></label>
+                </div>
+              <% } %>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer d-flex justify-content-between px-4 py-3 border-top bg-light rounded-bottom-4">
+          <a href="/listings" class="text-dark fw-bold text-decoration-underline">Clear all</a>
+          <button type="submit" class="btn btn-dark rounded-pill px-4 py-2 fw-semibold">Show listings</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
