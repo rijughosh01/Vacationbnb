@@ -16,6 +16,8 @@ const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User = require("./models/user.js");
+const Listing = require("./models/listing.js");
+const wrapAsync = require("./utils/wrapAsync.js");
 
 const listingRouter = require("./routes/listing.js");
 // const review = require("./models/review.js");
@@ -99,9 +101,14 @@ app.use((req, res, next) => {
 //   res.send(rigisterdUser);
 // });
 
-app.get("/", (req, res) => {
-  res.redirect("/listings");
-});
+app.get(
+  "/",
+  wrapAsync(async (req, res) => {
+    const featuredListings = await Listing.find({}).limit(8).sort({ createdAt: -1 });
+    const totalListingsCount = await Listing.countDocuments();
+    res.render("home.ejs", { featuredListings, totalListingsCount });
+  })
+);
 
 app.get("/privacy", (req, res) => {
   res.render("privacy.ejs");

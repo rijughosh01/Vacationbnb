@@ -1,0 +1,459 @@
+<% layout("/layouts/boilerplate") %>
+
+<!-- 1. Master Hero Section -->
+<section class="home-hero-container my-3 my-md-4">
+  <div class="home-hero-card position-relative overflow-hidden rounded-5 text-white p-4 p-md-5 d-flex flex-column justify-content-center align-items-center text-center shadow-lg">
+    <!-- Background Overlay Backdrop -->
+    <div class="home-hero-backdrop"></div>
+
+    <div class="home-hero-content position-relative z-2 w-100" style="max-width: 960px;">
+      <!-- Welcome Pill -->
+      <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill hero-pill mb-3">
+        <i class="fa-solid fa-sparkles text-warning"></i>
+        <span class="small fw-semibold tracking-wide">WanderLust Premier Vacation Homes</span>
+      </div>
+
+      <!-- Main Headline -->
+      <h1 class="display-4 fw-bolder tracking-tight mb-3 hero-title">
+        Find your sanctuary.<br class="d-none d-sm-inline" />
+        <span class="hero-gradient-text">Travel without limits.</span>
+      </h1>
+
+      <!-- Subtitle -->
+      <p class="lead hero-subtext mb-4 mx-auto" style="max-width: 660px;">
+        Curated beachfront villas, cliffside infinity pools, alpine retreats, and historic châteaux across 120+ destinations worldwide.
+      </p>
+
+      <!-- Multi-Field Floating Search Capsule -->
+      <div class="hero-search-box mx-auto mb-4 p-2 p-md-3 rounded-pill bg-white shadow-lg text-dark">
+        <form action="/listings" method="GET" class="row g-2 align-items-center m-0 w-100">
+          <!-- Where Input -->
+          <div class="col-12 col-md-4 text-start px-3 py-1 border-end-md">
+            <label class="d-block text-uppercase text-muted fw-bold" style="font-size: 0.68rem; letter-spacing: 0.5px;">Where to?</label>
+            <div class="d-flex align-items-center gap-2">
+              <i class="fa-solid fa-location-dot text-danger"></i>
+              <input 
+                type="text" 
+                name="q" 
+                class="form-control form-control-sm border-0 p-0 fw-semibold bg-transparent shadow-none" 
+                placeholder="Search destinations (e.g. Goa, Paris)..."
+              />
+            </div>
+          </div>
+
+          <!-- Category Select -->
+          <div class="col-12 col-md-4 text-start px-3 py-1 border-end-md">
+            <label class="d-block text-uppercase text-muted fw-bold" style="font-size: 0.68rem; letter-spacing: 0.5px;">Experience</label>
+            <div class="d-flex align-items-center gap-2">
+              <i class="fa-solid fa-compass text-primary"></i>
+              <select name="category" class="form-select form-select-sm border-0 p-0 fw-semibold bg-transparent shadow-none">
+                <option value="All">All Categories</option>
+                <option value="Trending">Trending</option>
+                <option value="Beachfront">Beachfront</option>
+                <option value="Amazing Pools">Amazing Pools</option>
+                <option value="Mountains">Mountains</option>
+                <option value="Castles">Castles</option>
+                <option value="Iconic cities">Iconic Cities</option>
+                <option value="Camping">Camping</option>
+                <option value="Farms">Farms</option>
+                <option value="Arctic">Arctic</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Search CTA Button -->
+          <div class="col-12 col-md-4 text-md-end text-center p-1">
+            <button type="submit" class="btn btn-luxury-primary w-100 rounded-pill py-2 px-4 fw-bold d-flex align-items-center justify-content-center gap-2 shadow-sm">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <span>Explore Stays</span>
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Quick Destination Shortcut Pills -->
+      <div class="d-flex align-items-center justify-content-center gap-2 flex-wrap hero-dest-pills">
+        <span class="small text-white-50 me-1 fw-semibold">Popular:</span>
+        <a href="/listings?q=Goa" class="badge rounded-pill hero-tag-pill text-decoration-none">🌴 Goa</a>
+        <a href="/listings?q=Paris" class="badge rounded-pill hero-tag-pill text-decoration-none">🗼 Paris</a>
+        <a href="/listings?q=Malibu" class="badge rounded-pill hero-tag-pill text-decoration-none">🌊 Malibu</a>
+        <a href="/listings?q=Aspen" class="badge rounded-pill hero-tag-pill text-decoration-none">🏔️ Aspen</a>
+        <a href="/listings?q=Florence" class="badge rounded-pill hero-tag-pill text-decoration-none">🏛️ Florence</a>
+        <a href="/listings?q=Tokyo" class="badge rounded-pill hero-tag-pill text-decoration-none">🏯 Tokyo</a>
+        <a href="/listings?q=Bali" class="badge rounded-pill hero-tag-pill text-decoration-none">🏝️ Bali</a>
+      </div>
+    </div>
+
+    <!-- Trust Stats Bar -->
+    <div class="home-hero-stats position-relative z-2 w-100 mt-4 pt-3 border-top border-white border-opacity-10 d-none d-md-flex align-items-center justify-content-around">
+      <div class="d-flex align-items-center gap-2 text-white-50 small">
+        <i class="fa-solid fa-star text-warning"></i>
+        <span><strong class="text-white">4.92 / 5</strong> Average Guest Rating</span>
+      </div>
+      <div class="d-flex align-items-center gap-2 text-white-50 small">
+        <i class="fa-solid fa-shield-halved text-success"></i>
+        <span><strong class="text-white">₹10,00,000</strong> WanderCover Included</span>
+      </div>
+      <div class="d-flex align-items-center gap-2 text-white-50 small">
+        <i class="fa-solid fa-certificate text-info"></i>
+        <span><strong class="text-white">100%</strong> Verified Luxury Homes</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 2. Explore by Travel Category (Visual Stays) -->
+<section class="my-5">
+  <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-end gap-2 mb-4">
+    <div>
+      <span class="text-uppercase text-danger fw-bold small tracking-wider">Curated Styles</span>
+      <h2 class="h3 fw-bold mb-1">Explore by Travel Vibe</h2>
+      <p class="text-muted mb-0 small">Find stays customized for every journey and mood.</p>
+    </div>
+    <a href="/listings" class="text-decoration-none text-dark fw-semibold small">
+      View all categories &rarr;
+    </a>
+  </div>
+
+  <div class="row row-cols-xl-6 row-cols-lg-3 row-cols-md-3 row-cols-2 g-3">
+    <!-- Category 1: Beachfront -->
+    <div class="col">
+      <a href="/listings?category=Beachfront" class="category-card-link text-decoration-none">
+        <div class="category-vibe-card rounded-4 overflow-hidden position-relative shadow-sm">
+          <img 
+            src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80" 
+            alt="Beachfront Stays" 
+            class="w-100 h-100 object-fit-cover vibe-img"
+          />
+          <div class="vibe-overlay p-3 d-flex flex-column justify-content-end">
+            <span class="vibe-icon"><i class="fa-solid fa-umbrella-beach"></i></span>
+            <span class="vibe-title fw-bold text-white">Beachfront</span>
+            <span class="vibe-count text-white-50 small">Oceanfront living</span>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <!-- Category 2: Amazing Pools -->
+    <div class="col">
+      <a href="/listings?category=Amazing%20Pools" class="category-card-link text-decoration-none">
+        <div class="category-vibe-card rounded-4 overflow-hidden position-relative shadow-sm">
+          <img 
+            src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=600&q=80" 
+            alt="Amazing Pools" 
+            class="w-100 h-100 object-fit-cover vibe-img"
+          />
+          <div class="vibe-overlay p-3 d-flex flex-column justify-content-end">
+            <span class="vibe-icon"><i class="fa-solid fa-person-swimming"></i></span>
+            <span class="vibe-title fw-bold text-white">Amazing Pools</span>
+            <span class="vibe-count text-white-50 small">Infinity & views</span>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <!-- Category 3: Mountains -->
+    <div class="col">
+      <a href="/listings?category=Mountains" class="category-card-link text-decoration-none">
+        <div class="category-vibe-card rounded-4 overflow-hidden position-relative shadow-sm">
+          <img 
+            src="https://images.unsplash.com/photo-1502784444187-359ac186c5bb?auto=format&fit=crop&w=600&q=80" 
+            alt="Mountain Chalets" 
+            class="w-100 h-100 object-fit-cover vibe-img"
+          />
+          <div class="vibe-overlay p-3 d-flex flex-column justify-content-end">
+            <span class="vibe-icon"><i class="fa-solid fa-mountain"></i></span>
+            <span class="vibe-title fw-bold text-white">Mountains</span>
+            <span class="vibe-count text-white-50 small">Alpine cabins</span>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <!-- Category 4: Castles -->
+    <div class="col">
+      <a href="/listings?category=Castles" class="category-card-link text-decoration-none">
+        <div class="category-vibe-card rounded-4 overflow-hidden position-relative shadow-sm">
+          <img 
+            src="https://images.unsplash.com/photo-1585543805890-6051f7829f98?auto=format&fit=crop&w=600&q=80" 
+            alt="Historic Castles" 
+            class="w-100 h-100 object-fit-cover vibe-img"
+          />
+          <div class="vibe-overlay p-3 d-flex flex-column justify-content-end">
+            <span class="vibe-icon"><i class="fa-solid fa-chess-rook"></i></span>
+            <span class="vibe-title fw-bold text-white">Castles</span>
+            <span class="vibe-count text-white-50 small">Regal estates</span>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <!-- Category 5: Iconic Cities -->
+    <div class="col">
+      <a href="/listings?category=Iconic%20cities" class="category-card-link text-decoration-none">
+        <div class="category-vibe-card rounded-4 overflow-hidden position-relative shadow-sm">
+          <img 
+            src="https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?auto=format&fit=crop&w=600&q=80" 
+            alt="Iconic Cities" 
+            class="w-100 h-100 object-fit-cover vibe-img"
+          />
+          <div class="vibe-overlay p-3 d-flex flex-column justify-content-end">
+            <span class="vibe-icon"><i class="fa-solid fa-city"></i></span>
+            <span class="vibe-title fw-bold text-white">Iconic Cities</span>
+            <span class="vibe-count text-white-50 small">Skyline lofts</span>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <!-- Category 6: Countryside Farms -->
+    <div class="col">
+      <a href="/listings?category=Farms" class="category-card-link text-decoration-none">
+        <div class="category-vibe-card rounded-4 overflow-hidden position-relative shadow-sm">
+          <img 
+            src="https://images.unsplash.com/photo-1500076656116-558758c991c1?auto=format&fit=crop&w=600&q=80" 
+            alt="Countryside & Farms" 
+            class="w-100 h-100 object-fit-cover vibe-img"
+          />
+          <div class="vibe-overlay p-3 d-flex flex-column justify-content-end">
+            <span class="vibe-icon"><i class="fa-solid fa-cow"></i></span>
+            <span class="vibe-title fw-bold text-white">Farms & Nature</span>
+            <span class="vibe-count text-white-50 small">Peaceful pastures</span>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- 3. Featured Top-Rated Stays (Live MongoDB Showcase) -->
+<% if (featuredListings && featuredListings.length > 0) { %>
+  <section class="my-5">
+    <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-end gap-2 mb-4">
+      <div>
+        <span class="text-uppercase text-danger fw-bold small tracking-wider">Top Rated Escapes</span>
+        <h2 class="h3 fw-bold mb-1">Featured Premier Stays</h2>
+        <p class="text-muted mb-0 small">Handpicked homes with verified luxury standards & top host reviews.</p>
+      </div>
+      <a href="/listings" class="btn btn-outline-dark rounded-pill px-4 btn-sm fw-semibold">
+        Explore All <%= totalListingsCount || '40+' %> Stays &rarr;
+      </a>
+    </div>
+
+    <div class="row row-cols-xl-4 row-cols-lg-3 row-cols-md-2 row-cols-1 g-4">
+      <% for (let listing of featuredListings) { %>
+        <% if (listing) { %>
+          <div class="col">
+            <a href="/listings/<%= listing._id %>" class="listing-card-link text-decoration-none text-dark">
+              <div class="card luxury-card h-100 border-0 shadow-sm position-relative">
+                <!-- Image Showcase -->
+                <div class="card-img-wrapper position-relative overflow-hidden rounded-4">
+                  <img 
+                    src="<%= listing.image && listing.image.url ? listing.image.url : (listing.images && listing.images.length ? listing.images[0].url : 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=800&q=60') %>" 
+                    alt="<%= listing.title %>"
+                    loading="lazy"
+                    class="w-100 object-fit-cover"
+                    style="height: 250px;"
+                  />
+                  <span class="card-category-badge"><%= listing.category || 'Trending' %></span>
+                  
+                  <% 
+                    const isSaved = currUser && currUser.wishlist && currUser.wishlist.some(item => (item && item._id ? item._id.toString() : item ? item.toString() : '') === listing._id.toString());
+                  %>
+                  <button 
+                    class="card-heart-btn <%= isSaved ? 'active' : '' %>" 
+                    type="button" 
+                    title="<%= isSaved ? 'Remove from wishlist' : 'Save to wishlist' %>"
+                    onclick="toggleWishlist(event, '<%= listing._id %>')"
+                  >
+                    <i class="<%= isSaved ? 'fa-solid' : 'fa-regular' %> fa-heart"></i>
+                  </button>
+                </div>
+
+                <!-- Card Details -->
+                <div class="card-info pt-3">
+                  <div class="card-title-row d-flex justify-content-between align-items-center mb-1">
+                    <span class="fw-bold text-truncate me-2 fs-6"><%= listing.title %></span>
+                    <span class="fw-normal small text-nowrap"><i class="fa-solid fa-star text-warning me-1"></i>4.92</span>
+                  </div>
+                  <div class="card-location-sub text-muted small text-truncate mb-2">
+                    <i class="fa-solid fa-location-dot me-1 text-secondary"></i>
+                    <%= listing.location %>, <%= listing.country %>
+                  </div>
+                  <div class="card-price-row d-flex align-items-center justify-content-between pt-1 border-top">
+                    <div>
+                      <span class="fw-bold fs-6 text-dark">&#8377;<%= Number(listing.price).toLocaleString("en-IN") %></span>
+                      <span class="text-muted small"> / night</span>
+                    </div>
+                    <span class="badge rounded-pill bg-light text-secondary border px-2 py-1 small">
+                      Reserve &rarr;
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+        <% } %>
+      <% } %>
+    </div>
+
+    <!-- Center Call-To-Action -->
+    <div class="text-center mt-5">
+      <a href="/listings" class="btn btn-luxury-primary btn-lg rounded-pill px-5 py-3 fw-bold shadow-sm">
+        <i class="fa-solid fa-compass me-2"></i>Browse All <%= totalListingsCount || '40+' %> Stays
+      </a>
+    </div>
+  </section>
+<% } %>
+
+<!-- 4. Why Choose WanderLust (Value Props) -->
+<section class="my-5 py-4 border-top border-bottom">
+  <div class="text-center mb-5">
+    <span class="text-uppercase text-danger fw-bold small tracking-wider">The WanderLust Standard</span>
+    <h2 class="h2 fw-bold mb-2">Why Discerning Travelers Choose Us</h2>
+    <p class="text-muted mx-auto" style="max-width: 540px;">Uncompromising hospitality, full security protection, and homes designed for moments you will never forget.</p>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-12 col-md-6 col-lg-3">
+      <div class="p-4 rounded-4 bg-light h-100 border text-center text-md-start">
+        <div class="feature-icon-bubble mb-3 d-inline-flex align-items-center justify-content-center rounded-circle bg-danger-subtle text-danger" style="width: 56px; height: 56px; font-size: 1.5rem;">
+          <i class="fa-solid fa-certificate"></i>
+        </div>
+        <h5 class="fw-bold mb-2">100-Point Inspection</h5>
+        <p class="text-muted small mb-0">Every listing meets our high criteria for cleanliness, aesthetics, high-speed WiFi, and plush amenities.</p>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-6 col-lg-3">
+      <div class="p-4 rounded-4 bg-light h-100 border text-center text-md-start">
+        <div class="feature-icon-bubble mb-3 d-inline-flex align-items-center justify-content-center rounded-circle bg-success-subtle text-success" style="width: 56px; height: 56px; font-size: 1.5rem;">
+          <i class="fa-solid fa-shield-halved"></i>
+        </div>
+        <h5 class="fw-bold mb-2">WanderCover Guarantee</h5>
+        <p class="text-muted small mb-0">Up to ₹10,00,000 in comprehensive protection and verified booking security included with every reservation.</p>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-6 col-lg-3">
+      <div class="p-4 rounded-4 bg-light h-100 border text-center text-md-start">
+        <div class="feature-icon-bubble mb-3 d-inline-flex align-items-center justify-content-center rounded-circle bg-primary-subtle text-primary" style="width: 56px; height: 56px; font-size: 1.5rem;">
+          <i class="fa-solid fa-bolt"></i>
+        </div>
+        <h5 class="fw-bold mb-2">Instant Confirmation</h5>
+        <p class="text-muted small mb-0">Transparent nightly rates, clear GST breakdowns, and immediate booking confirmations with no delays.</p>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-6 col-lg-3">
+      <div class="p-4 rounded-4 bg-light h-100 border text-center text-md-start">
+        <div class="feature-icon-bubble mb-3 d-inline-flex align-items-center justify-content-center rounded-circle bg-warning-subtle text-warning" style="width: 56px; height: 56px; font-size: 1.5rem;">
+          <i class="fa-solid fa-headset"></i>
+        </div>
+        <h5 class="fw-bold mb-2">24/7 Guest Concierge</h5>
+        <p class="text-muted small mb-0">Our dedicated global support team is available 24/7 before, during, and after your stay.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5. Host Promo Card ("Airbnb your home") -->
+<section class="my-5">
+  <div class="rounded-5 p-4 p-md-5 text-white position-relative overflow-hidden shadow-lg host-promo-banner" style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);">
+    <div class="row align-items-center g-4 position-relative z-2">
+      <div class="col-lg-7">
+        <span class="badge bg-danger text-white rounded-pill px-3 py-2 fw-semibold text-uppercase small mb-3">
+          <i class="fa-solid fa-house-chimney me-1"></i> Host on WanderLust
+        </span>
+        <h2 class="display-6 fw-bold mb-3">Turn your extra space into an effortless income stream.</h2>
+        <p class="text-white-50 lead mb-4" style="font-size: 1.1rem;">
+          Welcoming hosts earn up to ₹45,000+ monthly sharing apartments, beachfront villas, and holiday homes with verified travelers worldwide.
+        </p>
+        <div class="d-flex align-items-center gap-3 flex-wrap">
+          <a href="/host" class="btn btn-luxury-primary rounded-pill px-4 py-3 fw-bold">
+            <i class="fa-solid fa-calculator me-2"></i>Estimate Your Earnings
+          </a>
+          <a href="/listings/new" class="btn btn-outline-light rounded-pill px-4 py-3 fw-semibold">
+            Airbnb your home
+          </a>
+        </div>
+      </div>
+      <div class="col-lg-5 text-center text-lg-end">
+        <div class="d-inline-block p-4 rounded-4 bg-white bg-opacity-10 border border-white border-opacity-20 text-start shadow-sm" style="backdrop-filter: blur(8px); max-width: 320px;">
+          <div class="small text-white-50 text-uppercase fw-bold mb-1">Average Host Revenue</div>
+          <div class="display-6 fw-bold text-white mb-2">₹45,000<span class="fs-6 text-white-50">/mo</span></div>
+          <p class="small text-white-50 mb-3">Based on 7 booked nights at ₹6,500/night in popular locations.</p>
+          <div class="d-flex align-items-center gap-2 text-warning small">
+            <i class="fa-solid fa-shield-check"></i>
+            <span>Full liability coverage included</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 6. Verified Traveler Testimonials -->
+<section class="my-5">
+  <div class="text-center mb-5">
+    <span class="text-uppercase text-danger fw-bold small tracking-wider">Guest Stories</span>
+    <h2 class="h2 fw-bold mb-2">Loved by Travelers Everywhere</h2>
+    <p class="text-muted">Over 50,000+ happy guests have booked their dream getaways on WanderLust.</p>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-12 col-md-4">
+      <div class="p-4 rounded-4 border bg-white shadow-sm h-100 d-flex flex-column justify-content-between">
+        <div>
+          <div class="text-warning mb-3">
+            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+          </div>
+          <p class="text-secondary fst-italic mb-4">"The villa in Goa was beyond breathtaking. Sunset views from our private pool, sparkling clean rooms, and the host was wonderfully attentive!"</p>
+        </div>
+        <div class="d-flex align-items-center gap-3">
+          <div class="rounded-circle bg-primary-subtle text-primary fw-bold d-flex align-items-center justify-content-center" style="width: 44px; height: 44px;">AK</div>
+          <div>
+            <h6 class="fw-bold mb-0">Ananya Kapoor</h6>
+            <small class="text-muted">Stayed in Goa, India</small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-4">
+      <div class="p-4 rounded-4 border bg-white shadow-sm h-100 d-flex flex-column justify-content-between">
+        <div>
+          <div class="text-warning mb-3">
+            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+          </div>
+          <p class="text-secondary fst-italic mb-4">"Booking on WanderLust was seamless. No hidden fees at checkout, instant verification, and the castle stay in Scotland was pure magic."</p>
+        </div>
+        <div class="d-flex align-items-center gap-3">
+          <div class="rounded-circle bg-success-subtle text-success fw-bold d-flex align-items-center justify-content-center" style="width: 44px; height: 44px;">MS</div>
+          <div>
+            <h6 class="fw-bold mb-0">Marcus Smith</h6>
+            <small class="text-muted">Stayed in Scottish Highlands</small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-4">
+      <div class="p-4 rounded-4 border bg-white shadow-sm h-100 d-flex flex-column justify-content-between">
+        <div>
+          <div class="text-warning mb-3">
+            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+          </div>
+          <p class="text-secondary fst-italic mb-4">"Hands down the best vacation rental platform. The 5-photo showcase gave us an accurate view before arriving, and the host was fantastic!"</p>
+        </div>
+        <div class="d-flex align-items-center gap-3">
+          <div class="rounded-circle bg-danger-subtle text-danger fw-bold d-flex align-items-center justify-content-center" style="width: 44px; height: 44px;">RD</div>
+          <div>
+            <h6 class="fw-bold mb-0">Riya Deshmukh</h6>
+            <small class="text-muted">Stayed in Ibiza, Spain</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

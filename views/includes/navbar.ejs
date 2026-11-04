@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg luxury-navbar sticky-top">
   <div class="container-fluid px-lg-5 px-3">
     <!-- Brand Logo -->
-    <a class="navbar-brand brand-logo" href="/listings">
+    <a class="navbar-brand brand-logo" href="/">
       <i class="fa-regular fa-compass"></i>
       <span>WanderLust</span>
     </a>
@@ -24,6 +24,7 @@
 
     <!-- Right User Controls -->
     <div class="d-flex align-items-center gap-3 ms-auto">
+      <a class="nav-host-link d-none d-md-block" href="/listings">Explore</a>
       <a class="nav-host-link d-none d-sm-block" href="/host">Airbnb your home</a>
       <a class="nav-wishlist-link d-none d-sm-flex align-items-center gap-1 text-decoration-none text-dark px-2 py-1 rounded-pill" href="/wishlist" title="My Wishlists">
         <i class="fa-solid fa-heart text-danger"></i>
@@ -47,6 +48,7 @@
           <% if (!currUser) { %>
             <li><a class="dropdown-item fw-bold" href="/signup">Sign up</a></li>
             <li><a class="dropdown-item" href="/login">Log in</a></li>
+            <li><a class="dropdown-item" href="/listings"><i class="fa-solid fa-compass me-2 text-primary"></i>Explore Stays</a></li>
             <li><a class="dropdown-item" href="/wishlist"><i class="fa-solid fa-heart me-2 text-danger"></i>Wishlists</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="/host"><i class="fa-solid fa-house-user me-2 text-danger"></i>Airbnb your home</a></li>
@@ -55,12 +57,12 @@
             <li class="px-3 py-2 text-muted small border-bottom">
               Signed in as <strong><%= currUser.username %></strong>
             </li>
+            <li><a class="dropdown-item" href="/listings"><i class="fa-solid fa-compass me-2 text-primary"></i>Explore Stays</a></li>
             <li><a class="dropdown-item" href="/wishlist"><i class="fa-solid fa-heart me-2 text-danger"></i>My Wishlists</a></li>
             <li><a class="dropdown-item" href="/dashboard"><i class="fa-solid fa-chart-line me-2 text-primary"></i>Host Dashboard</a></li>
             <li><a class="dropdown-item" href="/profile"><i class="fa-solid fa-user me-2 text-secondary"></i>My Profile</a></li>
             <li><a class="dropdown-item" href="/host"><i class="fa-solid fa-house-user me-2 text-danger"></i>Host on WanderLust</a></li>
             <li><a class="dropdown-item fw-semibold" href="/listings/new"><i class="fa-solid fa-plus me-2 text-danger"></i>Create New Listing</a></li>
-            <li><a class="dropdown-item" href="/listings"><i class="fa-solid fa-compass me-2 text-secondary"></i>Explore Listings</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item text-danger" href="/logout"><i class="fa-solid fa-arrow-right-from-bracket me-2"></i>Log out</a></li>
           <% } %>
